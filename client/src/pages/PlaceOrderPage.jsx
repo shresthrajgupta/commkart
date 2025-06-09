@@ -38,7 +38,7 @@ const PlaceOrderPage = () => {
                 taxPrice: cart.taxPrice,
                 totalPrice: cart.totalPrice
             }).unwrap();
-            
+
             dispatch(clearCartItems());
             navigate(`/order/${res._id}`);
         } catch (error) {

@@ -8,6 +8,7 @@ import CheckoutProgress from "../components/CheckoutProgress";
 
 import { savePaymentMethod } from "../redux/slices/cartSlice";
 
+
 const PaymentPage = () => {
     const [paymentMethod, setPaymentMethod] = useState("PayPal");
 
@@ -69,6 +70,6 @@ const PaymentPage = () => {
             </Form>
         </FormContainer>
     )
-}
+};
 
 export default PaymentPage;

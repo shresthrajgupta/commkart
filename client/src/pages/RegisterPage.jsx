@@ -10,6 +10,7 @@ import { setCredentials } from "../redux/slices/authSlice";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 
+
 const RegisterPage = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ const RegisterPage = () => {
     const navigate = useNavigate();
     const { search } = useLocation();
 
-    const [register, { isLoading }] = useRegisterMutation();
+    const [register, { isLoading: registerLoading }] = useRegisterMutation();
 
     const { userInfo } = useSelector((state) => state.auth);
 
@@ -100,11 +101,11 @@ const RegisterPage = () => {
                     ></Form.Control>
                 </Form.Group>
 
-                <Button type="submit" variant="primary" className="mt-2" disabled={isLoading}>
+                <Button type="submit" variant="primary" className="mt-2" disabled={registerLoading}>
                     Sign Up
                 </Button>
 
-                {isLoading && <Loader />}
+                {registerLoading && <Loader />}
             </Form>
 
             <Row className="py-3">

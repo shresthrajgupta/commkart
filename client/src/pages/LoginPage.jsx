@@ -10,6 +10,7 @@ import { setCredentials } from "../redux/slices/authSlice";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
 
+
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -18,7 +19,7 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const { search } = useLocation();
 
-    const [login, { isLoading }] = useLoginMutation();
+    const [login, { isLoading: loginLoading }] = useLoginMutation();
 
     const { userInfo } = useSelector((state) => state.auth);
 
@@ -38,8 +39,8 @@ const LoginPage = () => {
             const res = await login({ email, password }).unwrap();
             dispatch(setCredentials({ ...res }));
             navigate(redirect);
-        } catch (error) {
-            toast.error(error?.data?.message || error.error);
+        } catch (err) {
+            toast.error(err?.data?.message || err.error);
         }
     };
 
@@ -70,11 +71,11 @@ const LoginPage = () => {
                     ></Form.Control>
                 </Form.Group>
 
-                <Button type="submit" variant="primary" className="mt-2" disabled={isLoading}>
+                <Button type="submit" variant="primary" className="mt-2" disabled={loginLoading}>
                     Sign In
                 </Button>
 
-                {isLoading && <Loader />}
+                {loginLoading && <Loader />}
             </Form>
 
             <Row className="py-3">

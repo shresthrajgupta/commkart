@@ -11,13 +11,14 @@ import Loader from "../components/Loader";
 import { useCreateOrderMutation } from "../redux/slices/api/ordersApiSlice";
 import { clearCartItems } from "../redux/slices/cartSlice";
 
+
 const PlaceOrderPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const cart = useSelector((state) => state.cart);
 
-    const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+    const [createOrder, { isLoading: createOrderLoading, error: createOrderErr }] = useCreateOrderMutation();
 
     useEffect(() => {
         if (!cart.shippingAddress.address) {
@@ -41,8 +42,8 @@ const PlaceOrderPage = () => {
 
             dispatch(clearCartItems());
             navigate(`/order/${res._id}`);
-        } catch (error) {
-            toast.error(error?.data?.message || error.error);
+        } catch (err) {
+            toast.error(err?.data?.message || err.error);
         }
     }
 
@@ -118,10 +119,10 @@ const PlaceOrderPage = () => {
                             </ListGroup.Item>
 
                             {
-                                error &&
+                                createOrderErr &&
                                 <>
                                     <ListGroup.Item>
-                                        <Message variant="danger"> {error?.data?.message || error.error} </Message>
+                                        <Message variant="danger"> {createOrderErr?.data?.message || createOrderErr.error} </Message>
                                     </ListGroup.Item>
                                 </>
                             }
@@ -129,7 +130,7 @@ const PlaceOrderPage = () => {
                             <ListGroup.Item>
                                 <Button type="button" className="btn-block" disabled={cart.cartItems.length === 0} onClick={placeOrderHandler}> Place Order </Button>
 
-                                {isLoading && <Loader />}
+                                {createOrderLoading && <Loader />}
                             </ListGroup.Item>
                         </ListGroup>
                     </Card>
@@ -137,6 +138,6 @@ const PlaceOrderPage = () => {
             </Row>
         </>
     )
-}
+};
 
 export default PlaceOrderPage;

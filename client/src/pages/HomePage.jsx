@@ -4,18 +4,20 @@ import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-import { useGetProductsQuery } from '../redux/slices/api/productsApiSlice';
+import { useGetAllProductsQuery } from '../redux/slices/api/productsApiSlice';
+
 
 const HomePage = () => {
-    const { data: products, isLoading, error } = useGetProductsQuery();
+    const { data: allProductsData, isLoading: allProductsLoading, error: allProductsErr } = useGetAllProductsQuery();
 
     return (
         <>
-            {isLoading ? (<Loader />) : (error ? (<Message variant='danger'> {error?.data?.message || error.error} </Message>) : (
+            {allProductsLoading ? <Loader /> : (allProductsErr ? (<Message variant='danger'> {allProductsErr?.data?.message || allProductsErr.error} </Message>) : (
                 <>
                     <h1>Latest Products</h1>
+
                     <Row>
-                        {products.map((product) => (
+                        {allProductsData.map((product) => (
                             <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                                 <Product product={product} />
                             </Col>
@@ -23,10 +25,8 @@ const HomePage = () => {
                     </Row >
                 </>
             ))}
-
-
-        </ >
+        </>
     );
-}
+};
 
 export default HomePage;

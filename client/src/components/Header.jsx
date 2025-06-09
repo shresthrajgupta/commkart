@@ -9,6 +9,7 @@ import { removeCredentials } from '../redux/slices/authSlice';
 
 import logo from '../assets/logo.svg';
 
+
 const Header = () => {
     const { cartItems } = useSelector((state) => state.cart);
     const { userInfo } = useSelector((state) => state.auth);
@@ -93,6 +94,6 @@ const Header = () => {
             </Navbar >
         </header >
     );
-}
+};
 
 export default Header;

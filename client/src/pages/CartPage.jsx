@@ -7,6 +7,7 @@ import Message from '../components/Message';
 
 import { addToCart, removeFromCart } from "../redux/slices/cartSlice";
 
+
 const CartPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -74,6 +75,6 @@ const CartPage = () => {
             </Col>
         </Row >
     )
-}
+};
 
 export default CartPage;

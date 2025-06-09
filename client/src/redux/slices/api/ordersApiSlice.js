@@ -1,7 +1,7 @@
-import { get } from 'mongoose';
-import { ORDERS_URL, PAYPAL_URL } from '../../../constants';
+import { ORDERS_URL, PAYPAL_URL } from '../../../constants.js';
 
-import { apiSlice } from './apiSlice';
+import { apiSlice } from './apiSlice.js';
+
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -35,7 +35,19 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
             query: () => ({ url: `${ORDERS_URL}/myorders` }),
             keepUnusedDataFor: 5
         }),
+
+        getAllOrders: builder.query({
+            query: () => ({ url: `${ORDERS_URL}` }),
+            keepUnusedDataFor: 5
+        }),
+
+        markDelivered: builder.mutation({
+            query: (orderId) => ({
+                url: `${ORDERS_URL}/${orderId}/deliver`,
+                method: 'PUT'
+            })
+        }),
     })
 });
 
-export const { useCreateOrderMutation, useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery, useGetMyOrdersQuery } = ordersApiSlice;
+export const { useCreateOrderMutation, useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery, useGetMyOrdersQuery, useGetAllOrdersQuery, useMarkDeliveredMutation } = ordersApiSlice;

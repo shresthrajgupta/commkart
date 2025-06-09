@@ -11,6 +11,7 @@ import Message from "../components/Message";
 import { useGetProductDetailsQuery } from "../redux/slices/api/productsApiSlice";
 import { addToCart } from "../redux/slices/cartSlice";
 
+
 const ProductPage = () => {
     const { id: productId } = useParams();
 
@@ -19,10 +20,10 @@ const ProductPage = () => {
 
     const [quantity, setQuantity] = useState(1);
 
-    const { data: product, isLoading, error } = useGetProductDetailsQuery(productId);
+    const { data: getProductDetailsData, isLoading: getProductDetailsLoading, error: getProductDetailsErr } = useGetProductDetailsQuery(productId);
 
     const addToCartHandler = () => {
-        dispatch(addToCart({ ...product, quantity }));
+        dispatch(addToCart({ ...getProductDetailsData, quantity }));
         navigate('/cart');
     };
 
@@ -30,17 +31,17 @@ const ProductPage = () => {
         <>
             <Link className="btn btn-light my-3" to="/"> Go Back </Link>
 
-            {isLoading ? (<Loader />) : (error ? (<Message variant='danger'> {error?.data?.message || error.error} </Message>) : (
+            {getProductDetailsLoading ? (<Loader />) : (getProductDetailsErr ? (<Message variant='danger'> {getProductDetailsErr?.data?.message || getProductDetailsErr.error} </Message>) : (
                 <>
                     <Row>
-                        <Col md={5}> <Image src={product.image} alt={product.name} fluid /> </Col>
+                        <Col md={5}> <Image src={getProductDetailsData.image} alt={getProductDetailsData.name} fluid /> </Col>
 
                         <Col md={4}>
                             <ListGroup variant="flush">
-                                <ListGroup.Item> <h3>{product.name}</h3> </ListGroup.Item>
-                                <ListGroup.Item> <Rating value={product.rating} text={`${product.numReviews} reviews`} /> </ListGroup.Item>
-                                {/* <ListGroup.Item> Price: ${product.price} </ListGroup.Item> */}
-                                <ListGroup.Item> {product.description} </ListGroup.Item>
+                                <ListGroup.Item> <h3>{getProductDetailsData.name}</h3> </ListGroup.Item>
+                                <ListGroup.Item> <Rating value={getProductDetailsData.rating} text={`${getProductDetailsData.numReviews} reviews`} /> </ListGroup.Item>
+                                {/* <ListGroup.Item> Price: ${getProductDetailsData.price} </ListGroup.Item> */}
+                                <ListGroup.Item> {getProductDetailsData.description} </ListGroup.Item>
                             </ListGroup>
                         </Col>
 
@@ -50,25 +51,25 @@ const ProductPage = () => {
                                     <ListGroup.Item>
                                         <Row>
                                             <Col> Price: </Col>
-                                            <Col> <strong>${product.price}</strong> </Col>
+                                            <Col> <strong>${getProductDetailsData.price}</strong> </Col>
                                         </Row>
                                     </ListGroup.Item>
 
                                     <ListGroup.Item>
                                         <Row>
                                             <Col>Status:</Col>
-                                            <Col>{product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</Col>
+                                            <Col>{getProductDetailsData.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</Col>
                                         </Row>
                                     </ListGroup.Item>
 
-                                    {product.countInStock > 0 && (
+                                    {getProductDetailsData.countInStock > 0 && (
                                         <ListGroup.Item>
                                             <Row>
                                                 <Col>Qty</Col>
 
                                                 <Col>
                                                     <Form.Control as="select" value={quantity} onChange={(e) => setQuantity(e.target.value)}>
-                                                        {[...Array(product.countInStock).keys()].map((x) => (
+                                                        {[...Array(getProductDetailsData.countInStock).keys()].map((x) => (
                                                             <option key={x + 1} value={x + 1}>
                                                                 {x + 1}
                                                             </option>
@@ -80,7 +81,7 @@ const ProductPage = () => {
                                     )}
 
                                     <ListGroup.Item>
-                                        <Button className="btn-block" type="button" disabled={product.countInStock === 0} onClick={addToCartHandler}>
+                                        <Button className="btn-block" type="button" disabled={getProductDetailsData.countInStock === 0} onClick={addToCartHandler}>
                                             Add to Cart
                                         </Button>
                                     </ListGroup.Item>
@@ -92,6 +93,6 @@ const ProductPage = () => {
             ))}
         </ >
     )
-}
+};
 
 export default ProductPage;

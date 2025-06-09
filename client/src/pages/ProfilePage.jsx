@@ -8,7 +8,7 @@ import { FaTimes } from 'react-icons/fa';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 
-import { useProfileMutation } from '../redux/slices/api/usersApiSlice';
+import { useUpdateProfileMutation } from '../redux/slices/api/usersApiSlice';
 import { setCredentials } from '../redux/slices/authSlice';
 import { useGetMyOrdersQuery } from '../redux/slices/api/ordersApiSlice';
 
@@ -23,8 +23,8 @@ const ProfilePage = () => {
 
     const { userInfo } = useSelector((state) => state.auth);
 
-    const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation();
-    const { data: orders, isLoading: loadingOrders, error: errorOrders } = useGetMyOrdersQuery();
+    const [updateProfile, { isLoading: updateProfileLoading }] = useUpdateProfileMutation();
+    const { data: getMyOrdersData, isLoading: getMyOrdersLoading, error: getMyOrdersErr } = useGetMyOrdersQuery();
 
     useEffect(() => {
         setName(userInfo.name);
@@ -75,14 +75,14 @@ const ProfilePage = () => {
 
                     <Button type='submit' variant='primary' className='my-2'> Update </Button>
 
-                    {loadingUpdateProfile && <Loader />}
+                    {updateProfileLoading && <Loader />}
                 </Form>
             </Col>
 
             <Col md={9}>
                 <h2> My Orders </h2>
 
-                {loadingOrders ? <Loader /> : errorOrders ? (<Message variant='danger'>{errorOrders?.data?.message || errorOrders.error}</Message>) : (
+                {getMyOrdersLoading ? <Loader /> : getMyOrdersErr ? (<Message variant='danger'>{getMyOrdersErr?.data?.message || getMyOrdersErr.error}</Message>) : (
                     <>
                         <Table striped hover responsive className='table-sm'>
                             <thead>
@@ -97,7 +97,7 @@ const ProfilePage = () => {
                             </thead>
 
                             <tbody>
-                                {orders.map((order) => (
+                                {getMyOrdersData.map((order) => (
                                     <tr key={order._id}>
                                         <td>{order._id}</td>
                                         <td>{order.createdAt.substring(0, 10)}</td>
@@ -119,6 +119,6 @@ const ProfilePage = () => {
             </Col>
         </Row>
     )
-}
+};
 
 export default ProfilePage;

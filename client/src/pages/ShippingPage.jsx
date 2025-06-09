@@ -8,6 +8,7 @@ import CheckoutProgress from "../components/CheckoutProgress";
 
 import { saveShippingAddress } from "../redux/slices/cartSlice";
 
+
 const ShippingPage = () => {
     const cart = useSelector((state) => state.cart);
     const { shippingAddress } = cart;
@@ -83,6 +84,6 @@ const ShippingPage = () => {
             </Form>
         </FormContainer>
     )
-}
+};
 
 export default ShippingPage;

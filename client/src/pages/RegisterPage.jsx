@@ -69,7 +69,7 @@ const RegisterPage = () => {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                        > </Form.Control>
+                        />
                     </Form.Group>
 
                     <Form.Group controlId="email" className="my-3">
@@ -80,7 +80,7 @@ const RegisterPage = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                        > </Form.Control>
+                        />
                     </Form.Group>
 
                     <Form.Group controlId="password" className="my-3">
@@ -91,7 +91,7 @@ const RegisterPage = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                        ></Form.Control>
+                        />
                     </Form.Group>
 
                     <Form.Group controlId="rePassword" className="my-3">
@@ -102,7 +102,7 @@ const RegisterPage = () => {
                             value={rePassword}
                             onChange={(e) => setRePassword(e.target.value)}
                             required
-                        ></Form.Control>
+                        />
                     </Form.Group>
 
                     <Button type="submit" variant="primary" className="mt-2" disabled={registerLoading}>

@@ -9,6 +9,7 @@ import { setCredentials } from "../redux/slices/authSlice";
 
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
+import Meta from "../components/Meta";
 
 
 const RegisterPage = () => {
@@ -53,68 +54,72 @@ const RegisterPage = () => {
     };
 
     return (
-        <FormContainer>
-            <h1>Sign Up</h1>
+        <>
+            <Meta title="Register - CommKart" />
 
-            <Form onSubmit={submitHandler}>
-                <Form.Group controlId="name" className="my-3">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    > </Form.Control>
-                </Form.Group>
+            <FormContainer>
+                <h1>Sign Up</h1>
 
-                <Form.Group controlId="email" className="my-3">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control
-                        type="email"
-                        placeholder="Enter email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    > </Form.Control>
-                </Form.Group>
+                <Form onSubmit={submitHandler}>
+                    <Form.Group controlId="name" className="my-3">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        > </Form.Control>
+                    </Form.Group>
 
-                <Form.Group controlId="password" className="my-3">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Enter password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    ></Form.Control>
-                </Form.Group>
+                    <Form.Group controlId="email" className="my-3">
+                        <Form.Label>Email Address</Form.Label>
+                        <Form.Control
+                            type="email"
+                            placeholder="Enter email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        > </Form.Control>
+                    </Form.Group>
 
-                <Form.Group controlId="rePassword" className="my-3">
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Confirm password"
-                        value={rePassword}
-                        onChange={(e) => setRePassword(e.target.value)}
-                        required
-                    ></Form.Control>
-                </Form.Group>
+                    <Form.Group controlId="password" className="my-3">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            placeholder="Enter password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        ></Form.Control>
+                    </Form.Group>
 
-                <Button type="submit" variant="primary" className="mt-2" disabled={registerLoading}>
-                    Sign Up
-                </Button>
+                    <Form.Group controlId="rePassword" className="my-3">
+                        <Form.Label>Confirm Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            placeholder="Confirm password"
+                            value={rePassword}
+                            onChange={(e) => setRePassword(e.target.value)}
+                            required
+                        ></Form.Control>
+                    </Form.Group>
 
-                {registerLoading && <Loader />}
-            </Form>
+                    <Button type="submit" variant="primary" className="mt-2" disabled={registerLoading}>
+                        Sign Up
+                    </Button>
 
-            <Row className="py-3">
-                <Col>
-                    Already have an account? <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>Login</Link>
-                </Col>
-            </Row>
+                    {registerLoading && <Loader />}
+                </Form>
 
-        </FormContainer>
+                <Row className="py-3">
+                    <Col>
+                        Already have an account? <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>Login</Link>
+                    </Col>
+                </Row>
+
+            </FormContainer>
+        </>
     )
 };
 

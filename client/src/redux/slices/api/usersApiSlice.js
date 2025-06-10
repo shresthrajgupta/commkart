@@ -1,3 +1,4 @@
+import { get } from 'mongoose';
 import { USERS_URL } from '../../../constants.js';
 
 import { apiSlice } from './apiSlice.js';
@@ -34,9 +35,37 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 url: `${USERS_URL}/profile`,
                 method: 'PUT',
                 body: userDetails
+            })
+        }),
+
+        getAllUsers: builder.query({
+            query: () => ({ url: USERS_URL }),
+            providesTags: ['User'],
+            keepUnusedDataFor: 5, // Cache for 5 seconds
+        }),
+
+        deleteUser: builder.mutation({
+            query: (userId) => ({
+                url: `${USERS_URL}/${userId}`,
+                method: 'DELETE'
             }),
-        })
+            invalidatesTags: ['User']
+        }),
+
+        getUserDetails: builder.query({
+            query: (userId) => ({ url: `${USERS_URL}/${userId}` }),
+            keepUnusedDataFor: 5, // Cache for 5 seconds
+        }),
+
+        updateUserDetails: builder.mutation({
+            query: (userDetails) => ({
+                url: `${USERS_URL}/${userDetails.userId}`,
+                method: 'PUT',
+                body: userDetails
+            }),
+            invalidatesTags: ['User']
+        }),
     }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useUpdateProfileMutation } = usersApiSlice;
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useUpdateProfileMutation, useGetAllUsersQuery, useDeleteUserMutation, useGetUserDetailsQuery, useUpdateUserDetailsMutation } = usersApiSlice;

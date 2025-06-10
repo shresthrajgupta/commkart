@@ -7,6 +7,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../redux/slices/api/usersApiSlice';
 import { removeCredentials } from '../redux/slices/authSlice';
 
+import SearchBox from './SearchBox';
+
 import logo from '../assets/logo.svg';
 
 
@@ -43,6 +45,7 @@ const Header = () => {
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='ms-auto'>
+                            <SearchBox />
 
                             <LinkContainer to='/cart'>
                                 <Nav.Link > <FaShoppingCart />

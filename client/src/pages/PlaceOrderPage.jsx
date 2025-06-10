@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import CheckoutProgress from "../components/CheckoutProgress";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import Meta from "../components/Meta";
 
 import { useCreateOrderMutation } from "../redux/slices/api/ordersApiSlice";
 import { clearCartItems } from "../redux/slices/cartSlice";
@@ -49,6 +50,8 @@ const PlaceOrderPage = () => {
 
     return (
         <>
+            <Meta title="Place Order - CommKart" />
+
             <CheckoutProgress step1 step2 step3 step4 />
 
             <Row>

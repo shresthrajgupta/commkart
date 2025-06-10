@@ -7,6 +7,7 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import Meta from "../components/Meta";
 
 import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery, useMarkDeliveredMutation } from "../redux/slices/api/ordersApiSlice";
 
@@ -86,113 +87,117 @@ const OrderPage = () => {
     };
 
     return (
-        getOrderDetailsLoading ? (<Loader />) : (getOrderDetailsErr ? (<Message variant='danger' > {getOrderDetailsErr?.data?.message || getOrderDetailsErr?.error} </Message>) : (
-            <>
-                <h1>Order {getOrderDetailsData._id}</h1>
-                <Row>
-                    <Col md={8}>
-                        <ListGroup variant='flush'>
-                            <ListGroup.Item>
-                                <h2>Shipping</h2>
-                                <p>
-                                    <strong>Name: </strong> {getOrderDetailsData.user.name} <br />
-                                    <strong>Email: </strong> {getOrderDetailsData.user.email} <br />
-                                    <strong>Address: </strong> {getOrderDetailsData.shippingAddress.address}, {getOrderDetailsData.shippingAddress.city}, {getOrderDetailsData.shippingAddress.postalCode}, {getOrderDetailsData.shippingAddress.country}
-                                </p>
+        <>
+            <Meta title="Order Details - CommKart" />
 
-                                {getOrderDetailsData.isDelivered ? (
-                                    <Message variant='success'> Delivered on {new Date(getOrderDetailsData.deliveredAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })} </Message>
-                                ) : (
-                                    <Message variant='danger'> Not Delivered </Message>
-                                )}
-                            </ListGroup.Item>
-
-                            <ListGroup.Item>
-                                <h2>Payment Method</h2>
-                                <p> <strong>Method: </strong> {getOrderDetailsData.paymentMethod} </p>
-
-                                {getOrderDetailsData.isPaid ? (
-                                    <Message variant='success'> Paid on {new Date(getOrderDetailsData.paidAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })} </Message>
-                                ) : (
-                                    <Message variant='danger'> Not Paid </Message>
-                                )}
-                            </ListGroup.Item>
-
-                            <ListGroup.Item>
-                                <h2>Order Items</h2>
-                                {getOrderDetailsData.orderItems.length === 0 ? (
-                                    <Message> Order is empty </Message>
-                                ) : (
-                                    <ListGroup variant='flush'>
-                                        {getOrderDetailsData.orderItems.map((item, index) => (
-                                            <ListGroup.Item key={index}>
-                                                <Row>
-                                                    <Col md={1}> <Image src={item.image} alt={item.name} fluid rounded /> </Col>
-                                                    <Col> <Link to={`/product/${item._id}`}>{item.name}</Link> </Col>
-                                                    <Col md={4}> {item.quantity} x ${item.price} = ${item.quantity * item.price} </Col>
-                                                </Row>
-                                            </ListGroup.Item>
-                                        ))}
-                                    </ListGroup>
-                                )}
-                            </ListGroup.Item>
-                        </ListGroup>
-                    </Col>
-
-                    <Col md={4}>
-                        <Card>
+            {getOrderDetailsLoading ? (<Loader />) : (getOrderDetailsErr ? (<Message variant='danger' > {getOrderDetailsErr?.data?.message || getOrderDetailsErr?.error} </Message>) : (
+                <>
+                    <h1>Order {getOrderDetailsData._id}</h1>
+                    <Row>
+                        <Col md={8}>
                             <ListGroup variant='flush'>
-                                <ListGroup.Item> <h2>Order Summary</h2> </ListGroup.Item>
-
                                 <ListGroup.Item>
-                                    <Row>
-                                        <Col> Items </Col>
-                                        <Col> ${getOrderDetailsData.itemsPrice} </Col>
-                                    </Row>
+                                    <h2>Shipping</h2>
+                                    <p>
+                                        <strong>Name: </strong> {getOrderDetailsData.user.name} <br />
+                                        <strong>Email: </strong> {getOrderDetailsData.user.email} <br />
+                                        <strong>Address: </strong> {getOrderDetailsData.shippingAddress.address}, {getOrderDetailsData.shippingAddress.city}, {getOrderDetailsData.shippingAddress.postalCode}, {getOrderDetailsData.shippingAddress.country}
+                                    </p>
 
-                                    <Row>
-                                        <Col> Shipping </Col>
-                                        <Col> ${getOrderDetailsData.shippingPrice} </Col>
-                                    </Row>
-
-                                    <Row>
-                                        <Col> Tax </Col>
-                                        <Col> ${getOrderDetailsData.taxPrice} </Col>
-                                    </Row>
-
-                                    <Row>
-                                        <Col> Total </Col>
-                                        <Col> ${getOrderDetailsData.totalPrice} </Col>
-                                    </Row>
+                                    {getOrderDetailsData.isDelivered ? (
+                                        <Message variant='success'> Delivered on {new Date(getOrderDetailsData.deliveredAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })} </Message>
+                                    ) : (
+                                        <Message variant='danger'> Not Delivered </Message>
+                                    )}
                                 </ListGroup.Item>
 
-                                {!getOrderDetailsData.isPaid && (
-                                    <ListGroup.Item>
-                                        {payOrderLoading && <Loader />}
+                                <ListGroup.Item>
+                                    <h2>Payment Method</h2>
+                                    <p> <strong>Method: </strong> {getOrderDetailsData.paymentMethod} </p>
 
-                                        {isPending ? <Loader /> : (
-                                            <>
-                                                {/* <div> <Button onClick={onApproveTest} style={{ marginBottom: '10px' }}> Test Pay Order </Button> </div> */}
-                                                <div> <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError} /> </div>
-                                            </>
-                                        )}
-                                    </ListGroup.Item>
-                                )}
+                                    {getOrderDetailsData.isPaid ? (
+                                        <Message variant='success'> Paid on {new Date(getOrderDetailsData.paidAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })} </Message>
+                                    ) : (
+                                        <Message variant='danger'> Not Paid </Message>
+                                    )}
+                                </ListGroup.Item>
 
-                                {markDeliveredLoading && <Loader />}
-                                {userInfo && userInfo.isAdmin && getOrderDetailsData.isPaid && !getOrderDetailsData.isDelivered && (
-                                    <>
-                                        <ListGroup.Item>
-                                            <Button type='button' className='btn btn-block' onClick={markDeliveredHandler}> Mark As Delivered </Button>
-                                        </ListGroup.Item>
-                                    </>
-                                )}
+                                <ListGroup.Item>
+                                    <h2>Order Items</h2>
+                                    {getOrderDetailsData.orderItems.length === 0 ? (
+                                        <Message> Order is empty </Message>
+                                    ) : (
+                                        <ListGroup variant='flush'>
+                                            {getOrderDetailsData.orderItems.map((item, index) => (
+                                                <ListGroup.Item key={index}>
+                                                    <Row>
+                                                        <Col md={1}> <Image src={item.image} alt={item.name} fluid rounded /> </Col>
+                                                        <Col> <Link to={`/product/${item._id}`}>{item.name}</Link> </Col>
+                                                        <Col md={4}> {item.quantity} x ${item.price} = ${item.quantity * item.price} </Col>
+                                                    </Row>
+                                                </ListGroup.Item>
+                                            ))}
+                                        </ListGroup>
+                                    )}
+                                </ListGroup.Item>
                             </ListGroup>
-                        </Card>
-                    </Col>
-                </Row >
-            </>
-        ))
+                        </Col>
+
+                        <Col md={4}>
+                            <Card>
+                                <ListGroup variant='flush'>
+                                    <ListGroup.Item> <h2>Order Summary</h2> </ListGroup.Item>
+
+                                    <ListGroup.Item>
+                                        <Row>
+                                            <Col> Items </Col>
+                                            <Col> ${getOrderDetailsData.itemsPrice} </Col>
+                                        </Row>
+
+                                        <Row>
+                                            <Col> Shipping </Col>
+                                            <Col> ${getOrderDetailsData.shippingPrice} </Col>
+                                        </Row>
+
+                                        <Row>
+                                            <Col> Tax </Col>
+                                            <Col> ${getOrderDetailsData.taxPrice} </Col>
+                                        </Row>
+
+                                        <Row>
+                                            <Col> Total </Col>
+                                            <Col> ${getOrderDetailsData.totalPrice} </Col>
+                                        </Row>
+                                    </ListGroup.Item>
+
+                                    {!getOrderDetailsData.isPaid && (
+                                        <ListGroup.Item>
+                                            {payOrderLoading && <Loader />}
+
+                                            {isPending ? <Loader /> : (
+                                                <>
+                                                    {/* <div> <Button onClick={onApproveTest} style={{ marginBottom: '10px' }}> Test Pay Order </Button> </div> */}
+                                                    <div> <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError} /> </div>
+                                                </>
+                                            )}
+                                        </ListGroup.Item>
+                                    )}
+
+                                    {markDeliveredLoading && <Loader />}
+                                    {userInfo && userInfo.isAdmin && getOrderDetailsData.isPaid && !getOrderDetailsData.isDelivered && (
+                                        <>
+                                            <ListGroup.Item>
+                                                <Button type='button' className='btn btn-block' onClick={markDeliveredHandler}> Mark As Delivered </Button>
+                                            </ListGroup.Item>
+                                        </>
+                                    )}
+                                </ListGroup>
+                            </Card>
+                        </Col>
+                    </Row >
+                </>
+            ))}
+        </>
     )
 };
 

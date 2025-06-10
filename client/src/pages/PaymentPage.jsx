@@ -5,6 +5,7 @@ import { Form, Button, Col } from "react-bootstrap";
 
 import FormContainer from "../components/FormContainer";
 import CheckoutProgress from "../components/CheckoutProgress";
+import Meta from "../components/Meta";
 
 import { savePaymentMethod } from "../redux/slices/cartSlice";
 
@@ -31,29 +32,32 @@ const PaymentPage = () => {
     }
 
     return (
-        <FormContainer>
-            <CheckoutProgress step1 step2 step3 />
+        <>
+            <Meta title="Payment Method - CommKart" />
 
-            <h1>Payment Method</h1>
+            <FormContainer>
+                <CheckoutProgress step1 step2 step3 />
 
-            <Form onSubmit={submitHandler}>
-                <Form.Group>
-                    <Form.Label as="legend">Select Method</Form.Label>
+                <h1>Payment Method</h1>
 
-                    <Col>
-                        <Form.Check
-                            type="radio"
-                            className="my-2"
-                            label="PayPal or Credit Card"
-                            id="PayPal"
-                            name="paymentMethod"
-                            value="PayPal"
-                            checked
-                            onChange={(e) => setPaymentMethod(e.target.value)}
-                        />
-                    </Col>
+                <Form onSubmit={submitHandler}>
+                    <Form.Group>
+                        <Form.Label as="legend">Select Method</Form.Label>
 
-                    {/* <Col>
+                        <Col>
+                            <Form.Check
+                                type="radio"
+                                className="my-2"
+                                label="PayPal or Credit Card"
+                                id="PayPal"
+                                name="paymentMethod"
+                                value="PayPal"
+                                checked
+                                onChange={(e) => setPaymentMethod(e.target.value)}
+                            />
+                        </Col>
+
+                        {/* <Col>
                         <Form.Check
                             type="radio"
                             label="Stripe"
@@ -64,11 +68,12 @@ const PaymentPage = () => {
                             onChange={(e) => setPaymentMethod(e.target.value)}
                         />
                     </Col> */}
-                </Form.Group>
+                    </Form.Group>
 
-                <Button type="submit" variant="primary"> Continue </Button>
-            </Form>
-        </FormContainer>
+                    <Button type="submit" variant="primary"> Continue </Button>
+                </Form>
+            </FormContainer>
+        </>
     )
 };
 

@@ -4,6 +4,7 @@ import { FaTimes } from 'react-icons/fa';
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import Meta from "../components/Meta";
 
 import { useGetAllOrdersQuery } from "../redux/slices/api/ordersApiSlice";
 
@@ -13,6 +14,8 @@ const OrderListPage = () => {
 
     return (
         <>
+            <Meta title='All Orders (Admin) - CommKart' />
+
             <h1>Orders</h1>
 
             {allOrdersLoading ? <Loader /> : (allOrdersErr ? (<Message variant='danger'> {allOrdersErr?.data?.message || allOrdersErr.error} </Message>) : (

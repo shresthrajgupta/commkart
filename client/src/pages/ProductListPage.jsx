@@ -57,7 +57,7 @@ const ProductListPage = () => {
             {createProductLoading && <Loader />}
             {deleteProductLoading && <Loader />}
 
-            {getAllProductsLoading ? <Loader /> : (getAllProductsErr ? (<Message variant='danger'> {getAllProductsErr?.data?.message || getAllProductsErr.error} </Message>) : (
+            {getAllProductsLoading ? <Loader /> : (getAllProductsErr ? (<Message variant='danger'> {getAllProductsErr?.data?.message || getAllProductsErr?.error} </Message>) : (
                 <>
                     <Table striped hover responsive className="table-sm">
                         <thead>
@@ -76,7 +76,7 @@ const ProductListPage = () => {
                                 <tr key={product._id}>
                                     <td> {product._id} </td>
                                     <td> {product.name} </td>
-                                    <td> ${product.price} </td>
+                                    <td> ₹{product.price} </td>
                                     <td> {product.category} </td>
                                     <td> {product.brand} </td>
 

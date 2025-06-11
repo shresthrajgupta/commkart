@@ -49,13 +49,13 @@ const ProductPage = () => {
 
     return (
         <>
-            <Meta title={`Buy ${getProductDetailsData?.name} - CommKart`} />
+            <Meta title={(!getProductDetailsLoading && getProductDetailsData?.name === undefined) ? "Product Error - CommKart" : (getProductDetailsLoading ? "Welcome to CommKart" : `Buy ${getProductDetailsData?.name} - CommKart`)} />
 
-            <Link className="btn btn-light my-3" to="/"> Go Back </Link>
+            < Link className="btn my-2" to="/" style={{ backgroundColor: "#F7B733", border: "none", marginLeft: "-12px", color: "white" }}> Go Back </Link>
 
             {getProductDetailsLoading ? (<Loader />) : (getProductDetailsErr ? (<Message variant='danger'> {getProductDetailsErr?.data?.message || getProductDetailsErr.error} </Message>) : (
                 <>
-                    <Row>
+                    <Row style={{ backgroundColor: "white", paddingTop: "30px", paddingBottom: "30px" }}>
                         <Col md={5}> <Image src={getProductDetailsData.image} alt={getProductDetailsData.name} fluid /> </Col>
 
                         <Col md={4}>
@@ -73,14 +73,14 @@ const ProductPage = () => {
                                     <ListGroup.Item>
                                         <Row>
                                             <Col> Price: </Col>
-                                            <Col> <strong>${getProductDetailsData.price}</strong> </Col>
+                                            <Col> <strong>₹{getProductDetailsData.price}</strong> </Col>
                                         </Row>
                                     </ListGroup.Item>
 
                                     <ListGroup.Item>
                                         <Row>
                                             <Col>Status:</Col>
-                                            <Col>{getProductDetailsData.countInStock > 0 ? 'In Stock' : 'Out of Stock'}</Col>
+                                            <Col>{getProductDetailsData.countInStock > 0 ? <span style={{ color: "#4ABDAC", fontWeight: "bold" }}>In Stock</span> : <span style={{ color: "#FC4A1A", fontWeight: "bold" }}>Out of Stock</span>}</Col>
                                         </Row>
                                     </ListGroup.Item>
 
@@ -103,7 +103,7 @@ const ProductPage = () => {
                                     )}
 
                                     <ListGroup.Item>
-                                        <Button className="btn-block" type="button" disabled={getProductDetailsData.countInStock === 0} onClick={addToCartHandler}>
+                                        <Button className="btn-block" type="button" disabled={getProductDetailsData.countInStock === 0} onClick={addToCartHandler} style={{ backgroundColor: "#F7B733", border: "none", color: "white" }}>
                                             Add to Cart
                                         </Button>
                                     </ListGroup.Item>
@@ -112,11 +112,11 @@ const ProductPage = () => {
                         </Col>
                     </Row>
 
-                    <Row className="review">
+                    <Row className="review" style={{ backgroundColor: "white", paddingTop: "30px" }}>
                         <Col md={6}>
-                            <h2>Reviews</h2>
+                            <h2 style={{ marginLeft: "20px" }}>Reviews</h2>
 
-                            {getProductDetailsData.reviews.length === 0 && <Message> No Reviews </Message>}
+                            {getProductDetailsData.reviews.length === 0 && <Message style={{ marginLeft: "20px" }} variant="danger"> No Reviews </Message>}
 
                             <ListGroup variant="flush">
                                 {getProductDetailsData.reviews.map((review) => (
@@ -153,9 +153,9 @@ const ProductPage = () => {
                                                 <Form.Control as='textarea' row='3' value={comment} onChange={(e) => setComment(e.target.value)} />
                                             </Form.Group>
 
-                                            <Button disabled={createReviewLoading} type='submit' variant='primary'>Submit</Button>
+                                            <Button disabled={createReviewLoading} type='submit' variant='primary' style={{ backgroundColor: "#F7B733", border: "none", color: "white" }}>Submit</Button>
                                         </Form>
-                                    ) : (<Message> Please <Link to="/login">Log in</Link> to write a review{' '} </Message>)}
+                                    ) : (<Message variant="danger"> Please <Link to="/login">Log in</Link> to write a review{' '} </Message>)}
                                 </ListGroup.Item>
                             </ListGroup>
                         </Col>

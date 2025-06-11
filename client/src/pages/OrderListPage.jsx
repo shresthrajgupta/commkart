@@ -38,7 +38,7 @@ const OrderListPage = () => {
                                 <td>{order._id}</td>
                                 <td>{order.user && order.user.name}</td>
                                 <td>{new Date(order.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</td>
-                                <td>${order.totalPrice}</td>
+                                <td>₹{order.totalPrice}</td>
                                 <td> {order.isPaid ? new Date(order.paidAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : <FaTimes style={{ color: "red" }} />} </td>
                                 <td> {order.isDelivered ? new Date(order.deliveredAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : <FaTimes style={{ color: "red" }} />} </td>
 

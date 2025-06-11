@@ -22,13 +22,13 @@ const HomePage = () => {
 
             {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light mb-4'>Go Back</Link>}
 
-            {allProductsLoading ? <Loader /> : (allProductsErr ? (<Message variant='danger'> {allProductsErr?.data?.message || allProductsErr.error} </Message>) : (
+            {allProductsLoading ? <></> : (allProductsErr ? (<Message variant='danger'> {allProductsErr?.data?.message || allProductsErr.error} </Message>) : (
                 <>
-                    <h1>Latest Products</h1>
+                    <h1 style={{ color: "#3c3d40", marginBottom: 0, backgroundColor: "white", paddingLeft: "14px", paddingTop: "14px" }}>Latest Products</h1>
 
-                    <Row>
+                    <Row style={{ backgroundColor: "white", margin: 0, padding: "7px" }}>
                         {allProductsData.products.map((product) => (
-                            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                            <Col key={product._id} sm={12} md={6} lg={4} xl={3} style={{ paddingLeft: 8, paddingRight: 8 }}>
                                 <Product product={product} />
                             </Col>
                         ))}

@@ -20,15 +20,20 @@ const importData = async () => {
         await Product.deleteMany();
         await Order.deleteMany();
 
+        console.log("Data Destroyed!".green.inverse);
+
         const createdUsers = await User.insertMany(users);
         const adminUser = createdUsers[0]._id; // Admin User
+
+        console.log("Users Imported!".green.inverse);
 
         const sampleProducts = products.map((product) => {
             return { ...product, user: adminUser };
         });
-
         await Product.insertMany(sampleProducts);
-        console.log("Data Imported!".green.inverse);
+
+        console.log("Products Imported!".green.inverse);
+
         process.exit();
     } catch (error) {
         console.error(`${error}`.red.inverse);
@@ -50,9 +55,11 @@ const destroyData = async () => {
     }
 }
 
-if (process.argv[2] === "-d") {
-    destroyData();
-}
-else if (process.argv[2] === "-i") {
-    importData();
+console.log(process.argv);
+
+
+if (process.argv[2] === '-d') {
+  destroyData();
+} else {
+  importData();
 }

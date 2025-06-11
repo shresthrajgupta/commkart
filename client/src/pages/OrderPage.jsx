@@ -49,11 +49,11 @@ const OrderPage = () => {
     function onApprove(data, actions) {
         return actions.order.capture().then(async function (details) {
             try {
-                await payOrder({ orderId, details });
+                await payOrder({ orderId, details }).unwrap();
                 getOrderDetailsRefetch();
                 toast.success("Order paid successfully");
             } catch (err) {
-                toast.error(err?.data?.message || err.message);
+                toast.error(err?.data?.message || err?.message);
             }
         });
     };
@@ -65,7 +65,7 @@ const OrderPage = () => {
     };
 
     function onError(err) {
-        toast.error(err.message);
+        toast.error(err?.message);
     };
 
     function createOrder(data, actions) {
@@ -133,7 +133,7 @@ const OrderPage = () => {
                                                     <Row>
                                                         <Col md={1}> <Image src={item.image} alt={item.name} fluid rounded /> </Col>
                                                         <Col> <Link to={`/product/${item._id}`}>{item.name}</Link> </Col>
-                                                        <Col md={4}> {item.quantity} x ${item.price} = ${item.quantity * item.price} </Col>
+                                                        <Col md={4}> {item.quantity} x ₹{item.price} = ₹{item.quantity * item.price} </Col>
                                                     </Row>
                                                 </ListGroup.Item>
                                             ))}
@@ -151,22 +151,22 @@ const OrderPage = () => {
                                     <ListGroup.Item>
                                         <Row>
                                             <Col> Items </Col>
-                                            <Col> ${getOrderDetailsData.itemsPrice} </Col>
+                                            <Col> ₹{getOrderDetailsData?.itemsPrice} </Col>
                                         </Row>
 
                                         <Row>
                                             <Col> Shipping </Col>
-                                            <Col> ${getOrderDetailsData.shippingPrice} </Col>
+                                            <Col> ₹{getOrderDetailsData.shippingPrice} </Col>
                                         </Row>
 
                                         <Row>
                                             <Col> Tax </Col>
-                                            <Col> ${getOrderDetailsData.taxPrice} </Col>
+                                            <Col> ₹{getOrderDetailsData.taxPrice} </Col>
                                         </Row>
 
                                         <Row>
                                             <Col> Total </Col>
-                                            <Col> ${getOrderDetailsData.totalPrice} </Col>
+                                            <Col> ₹{getOrderDetailsData.totalPrice} </Col>
                                         </Row>
                                     </ListGroup.Item>
 
@@ -177,7 +177,7 @@ const OrderPage = () => {
                                             {isPending ? <Loader /> : (
                                                 <>
                                                     {/* <div> <Button onClick={onApproveTest} style={{ marginBottom: '10px' }}> Test Pay Order </Button> </div> */}
-                                                    <div> <PayPalButtons createOrder={createOrder} onApprove={onApprove} onError={onError} /> </div>
+                                                    <div> <PayPalButtons disabled createOrder={createOrder} onApprove={onApprove} onError={onError} /> </div>
                                                 </>
                                             )}
                                         </ListGroup.Item>

@@ -70,7 +70,7 @@ const PaymentPage = () => {
                     </Col> */}
                     </Form.Group>
 
-                    <Button type="submit" variant="primary"> Continue </Button>
+                    <Button type="submit" variant="primary" style={{ backgroundColor: "#F7B733", border: "none", borderRadius: "20px" }}> Continue </Button>
                 </Form>
             </FormContainer>
         </>

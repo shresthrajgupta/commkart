@@ -77,7 +77,7 @@ const ProductEditPage = () => {
 
                 {updateProductLoading && <Loader />}
 
-                {getProductDetailsLoading ? <Loader /> : (getProductDetailsErr ? (<Message variant='danger'> {getProductDetailsErr?.data?.message || getProductDetailsErr.error} </Message>) : (
+                {getProductDetailsLoading ? <Loader /> : (getProductDetailsErr ? (<Message variant='danger'> {getProductDetailsErr?.data?.message || getProductDetailsErr?.error} </Message>) : (
                     <Form onSubmit={updateProductSubmitHandler}>
                         <Form.Group controlId="name" className="my-2">
                             <Form.Label> Name </Form.Label>

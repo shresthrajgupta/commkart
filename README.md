@@ -1,0 +1,1 @@
+node server/seeder.js -d -i

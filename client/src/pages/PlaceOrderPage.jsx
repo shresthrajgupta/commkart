@@ -19,6 +19,7 @@ const PlaceOrderPage = () => {
 
     const cart = useSelector((state) => state.cart);
 
+
     const [createOrder, { isLoading: createOrderLoading, error: createOrderErr }] = useCreateOrderMutation();
 
     useEffect(() => {
@@ -35,10 +36,10 @@ const PlaceOrderPage = () => {
                 orderItems: cart.cartItems,
                 shippingAddress: cart.shippingAddress,
                 paymentMethod: cart.paymentMethod,
-                itemsPrice: cart.itemsPrice,
+                itemsPrice: Number(cart?.itemsPrice),
                 shippingPrice: cart.shippingPrice,
-                taxPrice: cart.taxPrice,
-                totalPrice: cart.totalPrice
+                taxPrice: cart?.taxPrice,
+                totalPrice: cart?.totalPrice
             }).unwrap();
 
             dispatch(clearCartItems());
@@ -78,7 +79,7 @@ const PlaceOrderPage = () => {
                                             <Row>
                                                 <Col md={1}> <Image src={item.image} alt={item.name} fluid rounded /> </Col>
                                                 <Col> <Link to={`/product/${item._id}`}>{item.name}</Link> </Col>
-                                                <Col md={4}> {item.quantity} x ${item.price} = ${item.quantity * item.price} </Col>
+                                                <Col md={4}> {item.quantity} x ₹{item.price} = ₹{item.quantity * item.price} </Col>
                                             </Row>
                                         </ListGroup.Item>
                                     ))}
@@ -96,28 +97,22 @@ const PlaceOrderPage = () => {
                             <ListGroup.Item>
                                 <Row>
                                     <Col> Items </Col>
-                                    <Col> ${cart.itemsPrice} </Col>
+                                    <Col> ₹{cart?.itemsPrice} </Col>
                                 </Row>
-                            </ListGroup.Item>
 
-                            <ListGroup.Item>
                                 <Row>
                                     <Col> Shipping </Col>
-                                    <Col> ${cart.shippingPrice} </Col>
+                                    <Col> ₹{cart.shippingPrice} </Col>
                                 </Row>
-                            </ListGroup.Item>
 
-                            <ListGroup.Item>
                                 <Row>
                                     <Col> Tax </Col>
-                                    <Col> ${cart.taxPrice} </Col>
+                                    <Col> ₹{cart?.taxPrice} </Col>
                                 </Row>
-                            </ListGroup.Item>
 
-                            <ListGroup.Item>
                                 <Row>
                                     <Col> Total </Col>
-                                    <Col> ${cart.totalPrice} </Col>
+                                    <Col> ₹{cart?.totalPrice} </Col>
                                 </Row>
                             </ListGroup.Item>
 
@@ -125,13 +120,13 @@ const PlaceOrderPage = () => {
                                 createOrderErr &&
                                 <>
                                     <ListGroup.Item>
-                                        <Message variant="danger"> {createOrderErr?.data?.message || createOrderErr.error} </Message>
+                                        <Message variant="danger"> {createOrderErr?.data?.message || createOrderErr?.error} </Message>
                                     </ListGroup.Item>
                                 </>
                             }
 
                             <ListGroup.Item>
-                                <Button type="button" className="btn-block" disabled={cart.cartItems.length === 0} onClick={placeOrderHandler}> Place Order </Button>
+                                <Button type="button" className="btn-block" disabled={cart.cartItems.length === 0} onClick={placeOrderHandler} style={{backgroundColor: "#F7B733", border: "none"}}> Place Order </Button>
 
                                 {createOrderLoading && <Loader />}
                             </ListGroup.Item>

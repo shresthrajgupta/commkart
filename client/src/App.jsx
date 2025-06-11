@@ -12,7 +12,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <main className="py-3">
+      <main className="py-3 " style={{ backgroundColor: "#DFDCE3", minHeight: 'calc(100vh - 140.247px)' }}>
         <Container>
           <Outlet />
         </Container>

@@ -65,7 +65,20 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['User']
         }),
+
+        getAddress: builder.query({
+            query: () => ({ url: `${USERS_URL}/address` }),
+            keepUnusedDataFor: 5, // Cache for 5 seconds
+        }),
+
+        addAddress: builder.mutation({
+            query: (address) => ({
+                url: `${USERS_URL}/address`,
+                method: 'PUT',
+                body: address
+            })
+        }),
     }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useUpdateProfileMutation, useGetAllUsersQuery, useDeleteUserMutation, useGetUserDetailsQuery, useUpdateUserDetailsMutation } = usersApiSlice;
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useUpdateProfileMutation, useGetAllUsersQuery, useDeleteUserMutation, useGetUserDetailsQuery, useUpdateUserDetailsMutation, useGetAddressQuery, useAddAddressMutation } = usersApiSlice;

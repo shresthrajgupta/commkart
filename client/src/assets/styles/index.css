@@ -68,6 +68,32 @@ table th {
   outline: #F7B733;
 }
 
+.custom-btn {
+  background-color: #F7B733 !important;
+  border-color: #F7B733 !important;
+  color: "white";
+}
+
+.custom-checkbox .form-check-input:checked {
+  background-color: #F7B733;
+  border-color: #F7B733;
+}
+
+.custom-checkbox .form-check-input:checked::before {
+  color: white;
+  /* Tick color */
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 /* CYAN=#4ABDAC
 RED=#FC4A1A
 YELLOW=#F7B733 

@@ -15,11 +15,11 @@ const protect = asyncHandler(async (req, res, next) => {
         } catch (error) {
             console.log(error);
             res.status(401);
-            throw new Error('Not authorized, token verification failed');
+            throw new Error('Not authorized, token verification failed.');
         }
     } else {
         res.status(401);
-        throw new Error('Not authorized, no token');
+        throw new Error('Not authorized, no token. Please Log in again');
     }
 });
 

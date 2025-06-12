@@ -133,7 +133,7 @@ const OrderPage = () => {
                                                     <ListGroup.Item key={index}>
                                                         <Row>
                                                             <Col md={1}> <Image src={item.image} alt={item.name} fluid rounded /> </Col>
-                                                            <Col> <Link to={`/product/${item._id}`}>{item.name}</Link> </Col>
+                                                            <Col> <Link to={`/product/${item._id}`} style={{ textDecoration: "none" }}>{item.name}</Link> </Col>
                                                             <Col md={4}> {item.quantity} x ₹{item.price} = ₹{item.quantity * item.price} </Col>
                                                         </Row>
                                                     </ListGroup.Item>

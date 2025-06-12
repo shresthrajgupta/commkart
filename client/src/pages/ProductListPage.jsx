@@ -46,55 +46,57 @@ const ProductListPage = () => {
         <>
             <Meta title="All Products (Admin) - CommKart" />
 
-            <Row className="align-items-center">
-                <Col> <h1>Products</h1> </Col>
+            <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "5px" }}>
+                <Row className="align-items-center">
+                    <Col> <h1 style={{ color: "#3c3d40" }}>Products</h1> </Col>
 
-                <Col className="text-end">
-                    <Button className="btn-sm m-3" onClick={createProductHandler}> <FaEdit /> Create Product </Button>
-                </Col>
-            </Row>
+                    <Col className="text-end">
+                        <Button className="btn-sm m-3 custom-btn" onClick={createProductHandler}> <FaEdit /> Create Product </Button>
+                    </Col>
+                </Row>
 
-            {createProductLoading && <Loader />}
-            {deleteProductLoading && <Loader />}
+                {createProductLoading && <Loader />}
+                {deleteProductLoading && <Loader />}
 
-            {getAllProductsLoading ? <Loader /> : (getAllProductsErr ? (<Message variant='danger'> {getAllProductsErr?.data?.message || getAllProductsErr?.error} </Message>) : (
-                <>
-                    <Table striped hover responsive className="table-sm">
-                        <thead>
-                            <tr>
-                                <th> ID </th>
-                                <th> NAME </th>
-                                <th> PRICE </th>
-                                <th> CATEGORY </th>
-                                <th> BRAND </th>
-                                <th> </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {getAllProductsData?.products.map((product) => (
-                                <tr key={product._id}>
-                                    <td> {product._id} </td>
-                                    <td> {product.name} </td>
-                                    <td> ₹{product.price} </td>
-                                    <td> {product.category} </td>
-                                    <td> {product.brand} </td>
-
-                                    <td>
-                                        <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                                            <Button variant='light' className="btn-sm mx-2"> <FaEdit /> </Button>
-                                        </LinkContainer>
-
-                                        <Button variant='light' className="btn-sm" onClick={() => deleteProductHandler(product._id)}> <FaTrash style={{ backgroundColor: 'white', color: 'red' }} /> </Button>
-                                    </td>
+                {getAllProductsLoading ? <Loader /> : (getAllProductsErr ? (<Message variant='danger'> {getAllProductsErr?.data?.message || getAllProductsErr?.error} </Message>) : (
+                    <>
+                        <Table striped hover responsive className="table-sm">
+                            <thead>
+                                <tr>
+                                    <th> ID </th>
+                                    <th> NAME </th>
+                                    <th> PRICE </th>
+                                    <th> CATEGORY </th>
+                                    <th> BRAND </th>
+                                    <th> </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                            </thead>
 
-                    <Paginate pages={getAllProductsData?.pages} page={getAllProductsData?.page} isAdmin={true} />
-                </>
-            ))}
+                            <tbody>
+                                {getAllProductsData?.products.map((product) => (
+                                    <tr key={product._id}>
+                                        <td> {product._id} </td>
+                                        <td> {product.name} </td>
+                                        <td> ₹{product.price} </td>
+                                        <td> {product.category} </td>
+                                        <td> {product.brand} </td>
+
+                                        <td>
+                                            <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                                                <Button variant='light' className="btn-sm mx-2"> <FaEdit /> </Button>
+                                            </LinkContainer>
+
+                                            <Button variant='light' className="btn-sm" onClick={() => deleteProductHandler(product._id)}> <FaTrash style={{ backgroundColor: 'transparent', color: '#FC4A1A' }} /> </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+
+                        <Paginate pages={getAllProductsData?.pages} page={getAllProductsData?.page} isAdmin={true} />
+                    </>
+                ))}
+            </div>
         </>
     )
 };

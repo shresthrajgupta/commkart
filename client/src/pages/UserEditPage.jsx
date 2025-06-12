@@ -47,32 +47,35 @@ const UserEditPage = () => {
         <>
             <Meta title="Edit User (Admin) - CommKart" />
 
-            <Link className="btn btn-light my-3" to="/admin/userlist"> Go Back </Link>
 
             <FormContainer>
-                <h1> Edit User </h1>
+                <Link className="btn my-3 custom-btn" to="/admin/userlist" style={{ color: "white" }}> Go Back </Link>
 
-                {updateUserDetailsLoading && <Loader />}
+                <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "5px" }}>
+                    <h1 style={{ color: "#3c3d40" }}> Edit User </h1>
 
-                {getUserDetailsLoading ? <Loader /> : (updateUserDetailsErr ? (<Message variant='danger'> {updateUserDetailsErr?.data?.message || updateUserDetailsErr.error} </Message>) : (
-                    <Form onSubmit={updateUserDetailsHandler}>
-                        <Form.Group controlId="name" className="my-2">
-                            <Form.Label> Name </Form.Label>
-                            <Form.Control type="name" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />
-                        </Form.Group>
+                    {updateUserDetailsLoading && <Loader />}
 
-                        <Form.Group controlId="email" className="my-2">
-                            <Form.Label> Email </Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        </Form.Group>
+                    {getUserDetailsLoading ? <Loader /> : (updateUserDetailsErr ? (<Message variant='danger'> {updateUserDetailsErr?.data?.message || updateUserDetailsErr.error} </Message>) : (
+                        <Form onSubmit={updateUserDetailsHandler}>
+                            <Form.Group controlId="name" className="my-2">
+                                <Form.Label> Name </Form.Label>
+                                <Form.Control type="name" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} className="custom-input"/>
+                            </Form.Group>
 
-                        <Form.Group controlId="isAdmin" className="my-2">
-                            <Form.Check type="checkbox" label="Is Admin" checked={isAdmin} onChange={(e) => setIsAdmin(e.target.checked)} />
-                        </Form.Group>
+                            <Form.Group controlId="email" className="my-2">
+                                <Form.Label> Email </Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} className="custom-input"/>
+                            </Form.Group>
 
-                        <Button type="submit" variant="primary" className="my-2"> Update </Button>
-                    </Form>
-                ))}
+                            <Form.Group controlId="isAdmin" className="my-2">
+                                <Form.Check type="checkbox" label="Is Admin" checked={isAdmin} onChange={(e) => setIsAdmin(e.target.checked)} className="custom-checkbox"/>
+                            </Form.Group>
+
+                            <Button type="submit" variant="primary" className="my-2 custom-btn"> Update </Button>
+                        </Form>
+                    ))}
+                </div>
             </FormContainer>
         </>
     )

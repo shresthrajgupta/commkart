@@ -52,39 +52,39 @@ const ProfilePage = () => {
         <>
             <Meta title='My Profile - CommKart' />
 
-            <Row>
+            <Row style={{ backgroundColor: "white", padding: "20px", borderRadius: "5px" }}>
                 <Col md={3}>
-                    <h2>User Profile</h2>
+                    <h2 style={{ color: "#3c3d40" }}>User Profile</h2>
 
                     <Form onSubmit={submitHandler}>
                         <Form.Group className='my-2' controlId='name'>
                             <Form.Label>Name</Form.Label>
-                            <Form.Control type='name' placeholder='Enter name' value={name} onChange={(e) => setName(e.target.value)} />
+                            <Form.Control type='name' placeholder='Enter name' value={name} onChange={(e) => setName(e.target.value)} className="custom-input" />
                         </Form.Group>
 
                         <Form.Group className='my-2' controlId='email'>
                             <Form.Label>Email Address</Form.Label>
-                            <Form.Control disabled type='email' placeholder='Enter email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <Form.Control disabled type='email' placeholder='Enter email' value={email} onChange={(e) => setEmail(e.target.value)} className="custom-input" />
                         </Form.Group>
 
                         <Form.Group className='my-2' controlId='password'>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type='password' placeholder='Enter password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <Form.Control type='password' placeholder='Enter password' value={password} onChange={(e) => setPassword(e.target.value)} className="custom-input" />
                         </Form.Group>
 
                         <Form.Group className='my-2' controlId='rePassword'>
                             <Form.Label>Confirm Password</Form.Label>
-                            <Form.Control type='password' placeholder='Confirm password' value={rePassword} onChange={(e) => setRePassword(e.target.value)} />
+                            <Form.Control type='password' placeholder='Confirm password' value={rePassword} onChange={(e) => setRePassword(e.target.value)} className="custom-input" />
                         </Form.Group>
 
-                        <Button type='submit' variant='primary' className='my-2'> Update </Button>
+                        <Button type='submit' variant='primary' className='my-2' style={{ backgroundColor: "#F7B733", border: "none" }}> Update </Button>
 
                         {updateProfileLoading && <Loader />}
                     </Form>
                 </Col>
 
                 <Col md={9}>
-                    <h2> My Orders </h2>
+                    <h2 style={{ color: "#3c3d40" }}> My Orders </h2>
 
                     {getMyOrdersLoading ? <Loader /> : getMyOrdersErr ? (<Message variant='danger'>{getMyOrdersErr?.data?.message || getMyOrdersErr.error}</Message>) : (
                         <>
@@ -104,14 +104,14 @@ const ProfilePage = () => {
                                     {getMyOrdersData.map((order) => (
                                         <tr key={order._id}>
                                             <td>{order._id}</td>
-                                            <td>{order.createdAt.substring(0, 10)}</td>
+                                            <td>{new Date(order.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</td>
                                             <td>{order.totalPrice}</td>
-                                            <td>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: 'red' }} />}</td>
-                                            <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: 'red' }} />}</td>
+                                            <td>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: '#FC4A1A' }} />}</td>
+                                            <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: '#FC4A1A' }} />}</td>
 
                                             <td>
                                                 <LinkContainer to={`/order/${order._id}`}>
-                                                    <Button className='btn-sm' variant='light'> Details </Button>
+                                                    <Button className='btn-sm custom-btn'> Details </Button>
                                                 </LinkContainer>
                                             </td>
                                         </tr>

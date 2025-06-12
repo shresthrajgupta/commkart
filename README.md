@@ -4,9 +4,9 @@
 
 ![homepage](screenshots/homepage.png)
 
-![product-page](productpage.png)
+![product-page](screenshots/productpage.png)
 
-![place-order-page](placeorderpage.png)
+![place-order-page](screenshots/placeorderpage.png)
 
 <!-- toc -->
 

@@ -57,68 +57,75 @@ const RegisterPage = () => {
         <>
             <Meta title="Register - CommKart" />
 
-            <FormContainer>
-                <h1>Sign Up</h1>
+            {registerLoading ? <Loader /> :
+                <>
+                    <FormContainer>
+                        <div style={{ maxWidth: "400px", margin: "0 auto", backgroundColor: "white", padding: "20px", borderRadius: "5px" }}>
+                            <h1 style={{ color: "#3c3d40" }}>Sign Up</h1>
 
-                <Form onSubmit={submitHandler}>
-                    <Form.Group controlId="name" className="my-3">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
+                            <Form onSubmit={submitHandler}>
+                                <Form.Group controlId="name" className="my-3">
+                                    <Form.Label>Name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        required
+                                        className="custom-input"
+                                    />
+                                </Form.Group>
 
-                    <Form.Group controlId="email" className="my-3">
-                        <Form.Label>Email Address</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Enter email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
+                                <Form.Group controlId="email" className="my-3">
+                                    <Form.Label>Email Address</Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="Enter email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        className="custom-input"
+                                    />
+                                </Form.Group>
 
-                    <Form.Group controlId="password" className="my-3">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Enter password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
+                                <Form.Group controlId="password" className="my-3">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="Enter password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        className="custom-input"
+                                    />
+                                </Form.Group>
 
-                    <Form.Group controlId="rePassword" className="my-3">
-                        <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Confirm password"
-                            value={rePassword}
-                            onChange={(e) => setRePassword(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
+                                <Form.Group controlId="rePassword" className="my-3">
+                                    <Form.Label>Confirm Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="Confirm password"
+                                        value={rePassword}
+                                        onChange={(e) => setRePassword(e.target.value)}
+                                        required
+                                        className="custom-input"
+                                    />
+                                </Form.Group>
 
-                    <Button type="submit" variant="primary" className="mt-2" disabled={registerLoading}>
-                        Sign Up
-                    </Button>
+                                <Button type="submit" variant="primary" className="mt-2" disabled={registerLoading} style={{ backgroundColor: "#F7B733", border: "none" }}>
+                                    Sign Up
+                                </Button>
+                            </Form>
 
-                    {registerLoading && <Loader />}
-                </Form>
-
-                <Row className="py-3">
-                    <Col>
-                        Already have an account? <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>Login</Link>
-                    </Col>
-                </Row>
-
-            </FormContainer>
+                            <Row className="py-3">
+                                <Col>
+                                    Already have an account? <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>Login</Link>
+                                </Col>
+                            </Row>
+                        </div>
+                    </FormContainer>
+                </>
+            }
         </>
     )
 };

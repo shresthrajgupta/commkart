@@ -31,9 +31,9 @@ const CartPage = () => {
         <>
             <Meta title='Cart - CommKart' />
 
-            <Row>
+            <Row style={{ backgroundColor: "white", padding: "20px", borderRadius: "5px" }}>
                 <Col md={8}>
-                    <h1 style={{ marginBottom: '20px', color: "#3c3d40" }}> Shopping Cart </h1>
+                    <h1 style={{ marginBottom: '20px', color: "#3c3d40", paddingLeft: "20px" }}> Shopping Cart </h1>
                     {cartItems.length === 0 ?
                         (<Message> Your cart is empty <Link to='/'> Go Back </Link> </Message>) :
                         (<ListGroup variant='flush'>
@@ -65,7 +65,7 @@ const CartPage = () => {
                     <Card>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h2>Subtotal ({cartItems.reduce((acc, item) => acc + parseInt(item.quantity), 0)}) items</h2>
+                                <h2 style={{ color: "#3c3d40" }}>Subtotal ({cartItems.reduce((acc, item) => acc + parseInt(item.quantity), 0)}) items</h2>
                                 ₹{cartItems.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.price)), 0).toFixed(2)}
                             </ListGroup.Item>
 

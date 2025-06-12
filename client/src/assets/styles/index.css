@@ -61,3 +61,9 @@ table th {
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
 }
+
+.custom-input:focus {
+  border-color: #F7B733 !important;
+  box-shadow: 0 0 0 1px #F7B733;
+  outline: #F7B733;
+}

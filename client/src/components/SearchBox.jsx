@@ -23,7 +23,7 @@ const SearchBox = () => {
     return (
         <>
             <Form onSubmit={submitHandler} className='d-flex justify-content-center align-items-center'>
-                <Form.Control type='text' name='q' onChange={(e) => setKeyword(e.target.value)} value={keyword} placeholder='Search Products...' className='mr-sm-2 ml-sm-5' style={{ height: "40px", border: "none", borderRadius: "20px" }} />
+                <Form.Control type='text' name='q' onChange={(e) => setKeyword(e.target.value)} value={keyword} placeholder='Search Products...' className='mr-sm-2 ml-sm-5 custom-input' style={{ height: "40px", border: "none", borderRadius: "20px" }} />
                 <Button type='submit' className='px-2 py-1 mx-2' style={{ backgroundColor: "#F7B733", border: "none", borderRadius: "20px", height: "40px" }}>Search</Button>
             </Form >
         </>

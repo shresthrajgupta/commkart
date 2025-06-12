@@ -53,87 +53,89 @@ const PlaceOrderPage = () => {
         <>
             <Meta title="Place Order - CommKart" />
 
-            <CheckoutProgress step1 step2 step3 step4 />
+            <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "5px" }}>
+                <CheckoutProgress step1 step2 step3 step4 />
 
-            <Row>
-                <Col md={8}>
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>
-                            <h2>Shipping</h2>
-                            <p> <strong>Address:</strong> {cart.shippingAddress.address}, {cart.shippingAddress.city}, {cart.shippingAddress.postalCode}, {cart.shippingAddress.country} </p>
-                        </ListGroup.Item>
-
-                        <ListGroup.Item>
-                            <h2>Payment Method</h2>
-                            <p> <strong>Method:</strong> {cart.paymentMethod} </p>
-                        </ListGroup.Item>
-
-                        <ListGroup.Item>
-                            <h2>Order Items</h2>
-                            {cart.cartItems.length === 0 ? (
-                                <Message> Your cart is empty </Message>
-                            ) : (
-                                <ListGroup variant="flush">
-                                    {cart.cartItems.map((item, index) => (
-                                        <ListGroup.Item key={index}>
-                                            <Row>
-                                                <Col md={1}> <Image src={item.image} alt={item.name} fluid rounded /> </Col>
-                                                <Col> <Link to={`/product/${item._id}`}>{item.name}</Link> </Col>
-                                                <Col md={4}> {item.quantity} x ₹{item.price} = ₹{item.quantity * item.price} </Col>
-                                            </Row>
-                                        </ListGroup.Item>
-                                    ))}
-                                </ListGroup>
-                            )}
-                        </ListGroup.Item>
-                    </ListGroup>
-                </Col>
-
-                <Col md={4}>
-                    <Card>
+                <Row>
+                    <Col md={8}>
                         <ListGroup variant="flush">
-                            <ListGroup.Item> <h2>Order Summary</h2> </ListGroup.Item>
-
                             <ListGroup.Item>
-                                <Row>
-                                    <Col> Items </Col>
-                                    <Col> ₹{cart?.itemsPrice} </Col>
-                                </Row>
-
-                                <Row>
-                                    <Col> Shipping </Col>
-                                    <Col> ₹{cart.shippingPrice} </Col>
-                                </Row>
-
-                                <Row>
-                                    <Col> Tax </Col>
-                                    <Col> ₹{cart?.taxPrice} </Col>
-                                </Row>
-
-                                <Row>
-                                    <Col> Total </Col>
-                                    <Col> ₹{cart?.totalPrice} </Col>
-                                </Row>
+                                <h2>Shipping</h2>
+                                <p> <strong>Address:</strong> {cart.shippingAddress.address}, {cart.shippingAddress.city}, {cart.shippingAddress.postalCode}, {cart.shippingAddress.country} </p>
                             </ListGroup.Item>
 
-                            {
-                                createOrderErr &&
-                                <>
-                                    <ListGroup.Item>
-                                        <Message variant="danger"> {createOrderErr?.data?.message || createOrderErr?.error} </Message>
-                                    </ListGroup.Item>
-                                </>
-                            }
+                            <ListGroup.Item>
+                                <h2>Payment Method</h2>
+                                <p> <strong>Method:</strong> {cart.paymentMethod} </p>
+                            </ListGroup.Item>
 
                             <ListGroup.Item>
-                                <Button type="button" className="btn-block" disabled={cart.cartItems.length === 0} onClick={placeOrderHandler} style={{backgroundColor: "#F7B733", border: "none"}}> Place Order </Button>
-
-                                {createOrderLoading && <Loader />}
+                                <h2>Order Items</h2>
+                                {cart.cartItems.length === 0 ? (
+                                    <Message> Your cart is empty </Message>
+                                ) : (
+                                    <ListGroup variant="flush">
+                                        {cart.cartItems.map((item, index) => (
+                                            <ListGroup.Item key={index}>
+                                                <Row>
+                                                    <Col md={1}> <Image src={item.image} alt={item.name} fluid rounded /> </Col>
+                                                    <Col> <Link to={`/product/${item._id}`}>{item.name}</Link> </Col>
+                                                    <Col md={4}> {item.quantity} x ₹{item.price} = ₹{item.quantity * item.price} </Col>
+                                                </Row>
+                                            </ListGroup.Item>
+                                        ))}
+                                    </ListGroup>
+                                )}
                             </ListGroup.Item>
                         </ListGroup>
-                    </Card>
-                </Col>
-            </Row>
+                    </Col>
+
+                    <Col md={4}>
+                        <Card>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item> <h2>Order Summary</h2> </ListGroup.Item>
+
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col> Items </Col>
+                                        <Col> ₹{cart?.itemsPrice} </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col> Shipping </Col>
+                                        <Col> ₹{cart.shippingPrice} </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col> Tax </Col>
+                                        <Col> ₹{cart?.taxPrice} </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col> Total </Col>
+                                        <Col> ₹{cart?.totalPrice} </Col>
+                                    </Row>
+                                </ListGroup.Item>
+
+                                {
+                                    createOrderErr &&
+                                    <>
+                                        <ListGroup.Item>
+                                            <Message variant="danger"> {createOrderErr?.data?.message || createOrderErr?.error} </Message>
+                                        </ListGroup.Item>
+                                    </>
+                                }
+
+                                <ListGroup.Item>
+                                    <Button type="button" className="btn-block" disabled={cart.cartItems.length === 0} onClick={placeOrderHandler} style={{ backgroundColor: "#F7B733", border: "none" }}> Place Order </Button>
+
+                                    {createOrderLoading && <Loader />}
+                                </ListGroup.Item>
+                            </ListGroup>
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
         </>
     )
 };

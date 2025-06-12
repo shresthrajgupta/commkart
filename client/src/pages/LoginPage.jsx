@@ -49,46 +49,53 @@ const LoginPage = () => {
         <>
             <Meta title='Login - CommKart' />
 
-            <FormContainer>
-                <h1>Log In</h1>
+            {loginLoading ? <Loader /> :
+                <>
+                    <FormContainer>
+                        <div style={{ backgroundColor: "white", borderRadius: "5px", padding: "20px", maxWidth: "400px", margin: "auto" }} className="shadow" >
 
-                <Form onSubmit={submitHandler}>
-                    <Form.Group controlId="email" className="my-3">
-                        <Form.Label>Email Address</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Enter email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
+                            <h1 style={{ color: "#3c3d40" }}>Log In</h1>
 
-                    <Form.Group controlId="password" className="my-3">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Enter password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
+                            <Form onSubmit={submitHandler}>
+                                <Form.Group controlId="email" className="my-3">
+                                    <Form.Label>Email Address</Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="Enter email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        className="custom-input"
+                                    />
+                                </Form.Group>
 
-                    <Button type="submit" variant="primary" className="mt-2" disabled={loginLoading}>
-                        Sign In
-                    </Button>
+                                <Form.Group controlId="password" className="my-3">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="Enter password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        className="custom-input"
+                                    />
+                                </Form.Group>
 
-                    {loginLoading && <Loader />}
-                </Form>
+                                <Button type="submit" variant="primary" className="mt-2" disabled={loginLoading} style={{ backgroundColor: "#F7B733", border: "none" }}>
+                                    Sign In
+                                </Button>
+                            </Form>
 
-                <Row className="py-3">
-                    <Col>
-                        New User? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Register</Link>
-                    </Col>
-                </Row>
+                            <Row className="py-3">
+                                <Col>
+                                    New User? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Register</Link>
+                                </Col>
+                            </Row>
 
-            </FormContainer>
+                        </div >
+                    </FormContainer >
+                </>
+            }
         </>
     )
 };

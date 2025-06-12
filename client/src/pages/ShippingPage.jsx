@@ -66,58 +66,64 @@ const ShippingPage = () => {
             {(getAddressLoading || addAddressLoading) ? <Loader /> :
 
                 <FormContainer>
-                    <CheckoutProgress step1 step2 />
+                    <div style={{ backgroundColor: "white", maxWidth: "500px", margin: "auto", borderRadius: "5px" }}>
+                        <CheckoutProgress step1 step2 />
 
-                    <h1 style={{ color: "#3c3d40", backgroundColor: "white", padding: "20px", paddingBottom: 0, marginBottom: 0 }}>Shipping</h1>
+                        <h1 style={{ color: "#3c3d40", paddingLeft: "20px", paddingBottom: 0, marginBottom: 0 }}>Shipping</h1>
 
-                    <Form onSubmit={submitHandler} style={{ backgroundColor: "white", padding: "20px", paddingTop: "1px", marginTop: 0 }}>
-                        <Form.Group controlId="address" className="my-2">
-                            <Form.Label>Address</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter address"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
+                        <Form onSubmit={submitHandler} style={{ backgroundColor: "white", padding: "20px", paddingTop: "1px", marginTop: 0 }}>
+                            <Form.Group controlId="address" className="my-2">
+                                <Form.Label>Address</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter address"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    required
+                                    className="custom-input"
+                                />
+                            </Form.Group>
 
-                        <Form.Group controlId="city" className="my-2">
-                            <Form.Label>City</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter city"
-                                value={city}
-                                onChange={(e) => setCity(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
+                            <Form.Group controlId="city" className="my-2">
+                                <Form.Label>City</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter city"
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                    required
+                                    className="custom-input"
+                                />
+                            </Form.Group>
 
-                        <Form.Group controlId="postalCode" className="my-2">
-                            <Form.Label>Postal Code</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter postal code"
-                                value={postalCode}
-                                onChange={(e) => setPostalCode(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
+                            <Form.Group controlId="postalCode" className="my-2">
+                                <Form.Label>Postal Code</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter postal code"
+                                    value={postalCode}
+                                    onChange={(e) => setPostalCode(e.target.value)}
+                                    required
+                                    className="custom-input"
+                                />
+                            </Form.Group>
 
-                        <Form.Group controlId="country" className="my-2">
-                            <Form.Label>Country</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter country"
-                                value={country}
-                                onChange={(e) => setCountry(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
+                            <Form.Group controlId="country" className="my-2">
+                                <Form.Label>Country</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Enter country"
+                                    value={country}
+                                    onChange={(e) => setCountry(e.target.value)}
+                                    required
+                                    className="custom-input"
+                                />
+                            </Form.Group>
 
-                        <Button type="submit" variant="primary" className="my-2" style={{ backgroundColor: "#F7B733", border: "none" }}>Continue</Button>
+                            <Button type="submit" variant="primary" className="my-2" style={{ backgroundColor: "#F7B733", border: "none" }}>Continue</Button>
 
-                    </Form>
+                        </Form>
+                    </div>
                 </FormContainer>
             }
         </>

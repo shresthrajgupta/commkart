@@ -29,17 +29,24 @@ app.use('/api/upload', uploadRoute);
 
 app.get('/api/config/paypal', (req, res) => res.json({ clientId: process.env.PAYPAL_CLIENT_ID }));
 
-const __dirname = path.resolve();
+if (process.env.NODE_ENV === 'development') {
+    const __dirname = path.resolve();
+    app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '/client/dist')));
-} else {
     app.get('/', (req, res) => {
         res.send('API is running...');
     });
+} else {
+    const __dirname = path.resolve();
+    app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+
+    app.use(express.static(path.join(__dirname, '/client/dist')));
+
+    app.get('*splat', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+    });
 }
 
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.use(notFound);
 app.use(errorHandler);
 

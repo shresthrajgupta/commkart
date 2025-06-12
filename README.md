@@ -8,21 +8,17 @@
 
 <!-- toc -->
 
-- [About](#About)
-- [Features](#Features)
-- [Tech Stack](#Tech Stack)
-- [Installation](#Installation)
-- [Contributing] (#Contributing)
+- [About](#about)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Contributing] (#contributing)
 
 <!-- tocstop -->
-
-***
 
 ## About
 
 CommKart is a full-featured e-commerce web application that provides users with a comprehensive online shopping experience. The platform includes product browsing, shopping cart functionality, user authentication, order management, and secure payment processing.
-
-***
 
 ## Features
 
@@ -36,8 +32,6 @@ CommKart is a full-featured e-commerce web application that provides users with 
 - **Payment Integration**: Secure payment processing
 - **Inventory Management**: Real-time stock tracking
 - **User Reviews**: Product rating and review system
-
-***
 
 ## Tech Stack
 
@@ -61,8 +55,6 @@ CommKart is a full-featured e-commerce web application that provides users with 
 ### Other Tools:
 - Git & GitHub
 - Postman (API testing)
-
-***
 
 ## Installation
 
@@ -120,8 +112,6 @@ npm run dev
 # Run build
 npm run build
 ```
-
-***
 
 ##  Contributing
 

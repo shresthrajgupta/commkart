@@ -2,9 +2,11 @@
 
 > A modern e-commerce platform built for seamless online shopping experience built with MERN stack.
 
-**** Image ****
+![homepage](screenshots/homepage.png)
 
-***
+![product-page](productpage.png)
+
+![place-order-page](placeorderpage.png)
 
 <!-- toc -->
 
@@ -12,7 +14,7 @@
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
-- [Contributing] (#contributing)
+- [Contributing](#contributing)
 
 <!-- tocstop -->
 

@@ -60,7 +60,7 @@ const ProductPage = () => {
 
                         <Col md={4}>
                             <ListGroup variant="flush">
-                                <ListGroup.Item> <h3>{getProductDetailsData.name}</h3> </ListGroup.Item>
+                                <ListGroup.Item> <h3 style={{ color: "#3c3d40" }}>{getProductDetailsData.name}</h3> </ListGroup.Item>
                                 <ListGroup.Item> <Rating value={getProductDetailsData.rating} text={`${getProductDetailsData.numReviews} reviews`} /> </ListGroup.Item>
                                 {/* <ListGroup.Item> Price: ${getProductDetailsData.price} </ListGroup.Item> */}
                                 <ListGroup.Item> {getProductDetailsData.description} </ListGroup.Item>
@@ -114,20 +114,26 @@ const ProductPage = () => {
 
                     <Row className="review" style={{ backgroundColor: "white", paddingTop: "30px" }}>
                         <Col md={6}>
-                            <h2 style={{ marginLeft: "20px" }}>Reviews</h2>
+                            <div style={{ padding: "19.2px" }}>
+                                <h2>Reviews</h2>
 
-                            {getProductDetailsData.reviews.length === 0 && <Message style={{ marginLeft: "20px" }} variant="danger"> No Reviews </Message>}
+                                {getProductDetailsData.reviews.length === 0 && <Message variant="danger"> No Reviews </Message>}
 
+                                <ListGroup variant="flush">
+                                    {getProductDetailsData.reviews.map((review) => (
+                                        <ListGroup.Item key={review._id}>
+                                            <strong>{review.name}</strong>
+                                            <Rating value={review.rating} />
+                                            <p>{new Date(review.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                            <p style={{ color: "#3c3d40" }}>{review.comment}</p>
+                                        </ListGroup.Item>
+                                    ))}
+                                </ListGroup>
+                            </div>
+                        </Col>
+
+                        <Col md={6}>
                             <ListGroup variant="flush">
-                                {getProductDetailsData.reviews.map((review) => (
-                                    <ListGroup.Item key={review._id}>
-                                        <strong>{review.name}</strong>
-                                        <Rating value={review.rating} />
-                                        <p>{new Date(review.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                        <p>{review.comment}</p>
-                                    </ListGroup.Item>
-                                ))}
-
                                 <ListGroup.Item>
                                     <h2>Write a customer review</h2>
 

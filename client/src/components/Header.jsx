@@ -57,7 +57,7 @@ const Header = () => {
                                         {
                                             cartItems.length > 0 && (
                                                 <Badge pill bg='danger' style={{ marginLeft: '5px' }}>
-                                                    {cartItems.reduce((acc, item) => acc + parseInt(item.quantity), 0)}
+                                                    {cartItems.reduce((acc, item) => acc + Number(item.quantity), 0)}
                                                 </Badge>
                                             )
                                         }

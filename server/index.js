@@ -27,7 +27,8 @@ app.use('/api/users', userRoute);
 app.use('/api/orders', orderRoute);
 app.use('/api/upload', uploadRoute);
 
-app.get('/api/config/paypal', (req, res) => res.json({ clientId: process.env.PAYPAL_CLIENT_ID }));
+app.get('/api/config/paypal', (req, res) => res.status(200).json({ clientId: process.env.PAYPAL_CLIENT_ID }));
+app.get('/api/config/razorpay', (req, res) => res.status(200).json({ razorpayApiKey: process.env.RAZORPAY_API_KEY }));
 
 if (process.env.NODE_ENV === 'development') {
     const __dirname = path.resolve();

@@ -10,8 +10,8 @@ import Meta from "../components/Meta";
 import { savePaymentMethod } from "../redux/slices/cartSlice";
 
 
-const PaymentPage = () => {
-    const [paymentMethod, setPaymentMethod] = useState("PayPal");
+const PaymentMethodPage = () => {
+    const [paymentMethod, setPaymentMethod] = useState("Razorpay");
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -50,26 +50,25 @@ const PaymentPage = () => {
                                 <Form.Check
                                     type="radio"
                                     className="my-2"
-                                    label="PayPal or Credit Card"
+                                    label="PayPal (Use dollar)"
                                     id="PayPal"
                                     name="paymentMethod"
                                     value="PayPal"
-                                    checked
                                     onChange={(e) => setPaymentMethod(e.target.value)}
                                 />
                             </Col>
 
-                            {/* <Col>
-                        <Form.Check
-                            type="radio"
-                            label="Stripe"
-                            id="Stripe"
-                            name="paymentMethod"
-                            value="Stripe"
-                            checked={paymentMethod === "Stripe"}
-                            onChange={(e) => setPaymentMethod(e.target.value)}
-                        />
-                    </Col> */}
+                            <Col>
+                                <Form.Check
+                                    type="radio"
+                                    className="my-2"
+                                    label="Razorpay"
+                                    id="Razorpay"
+                                    name="paymentMethod"
+                                    value="Razorpay"
+                                    onChange={(e) => setPaymentMethod(e.target.value)}
+                                />
+                            </Col>
                         </Form.Group>
 
                         <Button type="submit" variant="primary" style={{ backgroundColor: "#F7B733", border: "none", borderRadius: "20px" }}> Continue </Button>
@@ -80,4 +79,4 @@ const PaymentPage = () => {
     )
 };
 
-export default PaymentPage;
+export default PaymentMethodPage;

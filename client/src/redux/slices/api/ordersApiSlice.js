@@ -1,4 +1,4 @@
-import { ORDERS_URL, PAYPAL_URL } from '../../../constants.js';
+import { ORDERS_URL, PAYPAL_URL, RAZORPAY_URL } from '../../../constants.js';
 
 import { apiSlice } from './apiSlice.js';
 
@@ -18,17 +18,42 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
             keepUnusedDataFor: 5
         }),
 
-        payOrder: builder.mutation({
+        getPayPalClientId: builder.query({
+            query: () => ({ url: PAYPAL_URL }),
+            keepUnusedDataFor: 5
+        }),
+
+        payOrderPayPal: builder.mutation({
             query: ({ orderId, details }) => ({
-                url: `${ORDERS_URL}/${orderId}/pay`,
+                url: `${ORDERS_URL}/${orderId}/paypal`,
                 method: 'PUT',
                 body: { ...details }
             })
         }),
 
-        getPayPalClientId: builder.query({
-            query: () => ({ url: PAYPAL_URL }),
+        getRazorpayApiKey: builder.query({
+            query: () => ({ url: RAZORPAY_URL }),
             keepUnusedDataFor: 5
+        }),
+
+        initializeOrderRazorpay: builder.mutation({
+            query: ({ orderIdDb, amount }) => {
+                return {
+                    url: `${ORDERS_URL}/${orderIdDb}/razorpay`,
+                    method: 'POST',
+                    body: { amount }
+                }
+            }
+        }),
+
+        verifyOrderRazorpay: builder.mutation({
+            query: ({ orderIdDb, razorpayObject }) => {
+                return {
+                    url: `${ORDERS_URL}/${orderIdDb}/razorpay`,
+                    method: 'PUT',
+                    body: { ...razorpayObject }
+                }
+            }
         }),
 
         getMyOrders: builder.query({
@@ -50,4 +75,4 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     })
 });
 
-export const { useCreateOrderMutation, useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery, useGetMyOrdersQuery, useGetAllOrdersQuery, useMarkDeliveredMutation } = ordersApiSlice;
+export const { useCreateOrderMutation, useGetOrderDetailsQuery, usePayOrderPayPalMutation, useInitializeOrderRazorpayMutation, useGetPayPalClientIdQuery, useGetRazorpayApiKeyQuery, useGetMyOrdersQuery, useGetAllOrdersQuery, useMarkDeliveredMutation, useVerifyOrderRazorpayMutation } = ordersApiSlice;

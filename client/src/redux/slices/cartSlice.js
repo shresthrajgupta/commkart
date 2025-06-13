@@ -4,21 +4,21 @@ const initialState = localStorage.getItem("cart") ? JSON.parse(localStorage.getI
 
 
 const addDecimals = (num) => {
-    return (Math.round(parseFloat(num) * 100) / 100).toFixed(2);
+    return (Math.round(Number(num) * 100) / 100).toFixed(2);
 };
 
 const updateCart = (state) => {
     // calculate items price
-    state.itemsPrice = addDecimals(state.cartItems.reduce((acc, item) => acc + (parseFloat(item.price) * parseInt(item.quantity)), 0));
+    state.itemsPrice = addDecimals(state.cartItems.reduce((acc, item) => acc + (Number(item.price).toFixed(2) * Number(item.quantity)), 0));
 
     // calculate shipping price (free if items price > 100)
-    state.shippingPrice = ((state.itemsPrice > 100) ? 0 : 10);
+    state.shippingPrice = addDecimals((state.itemsPrice > 500) ? 0 : 50);
 
     // calculate tax price
     state.taxPrice = addDecimals(0 * state.itemsPrice);
 
     // calculate total price
-    state.totalPrice = addDecimals(state.itemsPrice + state.shippingPrice + state.taxPrice);
+    state.totalPrice = addDecimals(Number(state.itemsPrice) + Number(state.shippingPrice) + Number(state.taxPrice));
 
     localStorage.setItem("cart", JSON.stringify(state));
 };

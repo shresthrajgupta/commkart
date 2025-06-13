@@ -108,7 +108,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
         product.numReviews = product.reviews.length;
 
-        product.rating = product.reviews.reduce((acc, item) => parseFloat(item.rating) + parseFloat(acc), 0) / product.reviews.length;
+        product.rating = product.reviews.reduce((acc, item) => Number(item.rating) + Number(acc), 0) / product.reviews.length;
 
         await product.save();
         res.status(201).json({ message: 'Review added' });

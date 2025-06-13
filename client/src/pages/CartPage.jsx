@@ -45,7 +45,7 @@ const CartPage = () => {
                                         <Col md={2}>₹{item.price}</Col>
 
                                         <Col md={2}>
-                                            <Form.Control as="select" value={item.quantity} onChange={(e) => { addToCartHandler(item, parseInt(e.target.value)) }}>
+                                            <Form.Control as="select" value={item.quantity} onChange={(e) => { addToCartHandler(item, Number(e.target.value)) }}>
                                                 {[...Array(item.countInStock).keys()].map((x) => (
                                                     <option key={x + 1} value={x + 1}>
                                                         {x + 1}
@@ -65,8 +65,8 @@ const CartPage = () => {
                     <Card>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h2 style={{ color: "#3c3d40" }}>Subtotal ({cartItems.reduce((acc, item) => acc + parseInt(item.quantity), 0)}) items</h2>
-                                ₹{cartItems.reduce((acc, item) => acc + (parseInt(item.quantity) * parseFloat(item.price)), 0).toFixed(2)}
+                                <h2 style={{ color: "#3c3d40" }}>Subtotal ({cartItems.reduce((acc, item) => acc + Number(item.quantity), 0)}) items</h2>
+                                ₹{cartItems.reduce((acc, item) => acc + (Number(item.quantity) * Number(item.price)), 0).toFixed(2)}
                             </ListGroup.Item>
 
                             <ListGroup.Item>

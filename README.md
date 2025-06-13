@@ -118,3 +118,7 @@ npm run build
 ##  Contributing
 
 I welcome contributions from the community!
+
+## Reference Links
+
+- **Razorpay Integration**: https://www.youtube.com/watch?v=el5bTI6GBQ8&t=75000s

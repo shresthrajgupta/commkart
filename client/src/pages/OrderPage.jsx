@@ -7,25 +7,30 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import RazorpayButton from "../components/RazorpayButton";
 import Meta from "../components/Meta";
 
-import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery, useMarkDeliveredMutation } from "../redux/slices/api/ordersApiSlice";
+import { useGetOrderDetailsQuery, usePayOrderPayPalMutation, useInitializeOrderRazorpayMutation, useGetPayPalClientIdQuery, useGetRazorpayApiKeyQuery, useMarkDeliveredMutation, useVerifyOrderRazorpayMutation } from "../redux/slices/api/ordersApiSlice";
 
 
 const OrderPage = () => {
     const { id: orderId } = useParams();
 
     const { data: getOrderDetailsData, refetch: getOrderDetailsRefetch, isLoading: getOrderDetailsLoading, error: getOrderDetailsErr } = useGetOrderDetailsQuery(orderId);
-    const [payOrder, { isLoading: payOrderLoading }] = usePayOrderMutation();
+    const [payOrderPayPal, { isLoading: payOrderPayPalLoading }] = usePayOrderPayPalMutation();
     const [markDelivered, { isLoading: markDeliveredLoading }] = useMarkDeliveredMutation();
 
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
     const { data: getPayPalClientIdData, isLoading: getPayPalClientIdLoading, error: getPayPalClientIdErr } = useGetPayPalClientIdQuery();
 
+    const { data: getRazorpayApiKeyData, isLoading: getRazorpayApiKeyLoading, error: getRazorpayApiKeyErr } = useGetRazorpayApiKeyQuery();
+    const [initializeOrderRazorpay, { isLoading: initializeOrderRazorpayLoading }] = useInitializeOrderRazorpayMutation();
+    const [verifyOrderRazorpay, { isLoading: verifyOrderRazorpayLoading }] = useVerifyOrderRazorpayMutation();
+
     const { userInfo } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        if (!getPayPalClientIdErr && !getPayPalClientIdLoading && getPayPalClientIdData.clientId) {
+        if (getOrderDetailsData?.paymentMethod === "PayPal" && !getPayPalClientIdErr && !getPayPalClientIdLoading && getPayPalClientIdData.clientId) {
             const loadPayPalScript = async () => {
                 paypalDispatch({
                     type: "resetOptions",
@@ -44,12 +49,30 @@ const OrderPage = () => {
                 }
             }
         }
+
+
     }, [getOrderDetailsData, getPayPalClientIdData, paypalDispatch, getPayPalClientIdLoading, getPayPalClientIdErr]);
 
-    function onApprove(data, actions) {
+    async function onApproveTest() {
+        await payOrderPayPal({ orderId, details: { payer: {} } });
+        getOrderDetailsRefetch();
+        toast.success("Order paid successfully");
+    };
+
+    //******************************
+
+    function createOrderPayPal(data, actions) {
+        return actions.order.create({
+            purchase_units: [{ amount: { value: Number(getOrderDetailsData.totalPrice).toFixed(2) } }]
+        }).then((orderId) => {
+            return orderId;
+        })
+    };
+
+    function onApprovePayPal(data, actions) {
         return actions.order.capture().then(async function (details) {
             try {
-                await payOrder({ orderId, details }).unwrap();
+                await payOrderPayPal({ orderId, details }).unwrap();
                 getOrderDetailsRefetch();
                 toast.success("Order paid successfully");
             } catch (err) {
@@ -58,23 +81,67 @@ const OrderPage = () => {
         });
     };
 
-    async function onApproveTest() {
-        await payOrder({ orderId, details: { payer: {} } });
-        getOrderDetailsRefetch();
-        toast.success("Order paid successfully");
-    };
-
-    function onError(err) {
+    function onErrorPayPal(err) {
         toast.error(err?.message);
     };
 
-    function createOrder(data, actions) {
-        return actions.order.create({
-            purchase_units: [{ amount: { value: getOrderDetailsData.totalPrice } }]
-        }).then((orderId) => {
-            return orderId;
-        })
+    //******************************
+
+    async function createOrderRazorpay() {
+        if (!getOrderDetailsData?.isPaid) {
+            try {
+                const amount = getOrderDetailsData.totalPrice;
+                const key = getRazorpayApiKeyData.razorpayApiKey;
+                const orderIdDb = getOrderDetailsData?._id;
+                const name = getOrderDetailsData?.user?.name
+                const email = getOrderDetailsData?.user?.email
+
+                const orderData = (await initializeOrderRazorpay({ orderIdDb, amount })).data;
+                const orderIdRazorpay = orderData?.order?.id;
+
+
+                const options = {
+                    key,
+                    amount: amount * 100,
+                    currency: 'INR',
+                    name: 'CommKart',
+                    description: 'CommKart Order Transaction',
+                    order_id: orderIdRazorpay,
+                    handler: async function (orderResponse) {
+                        const razorpayObject = {
+                            razorpay_order_id: orderResponse?.razorpay_order_id,
+                            razorpay_payment_id: orderResponse?.razorpay_payment_id,
+                            razorpay_signature: orderResponse?.razorpay_signature
+                        };
+
+                        const verifyResponse = await verifyOrderRazorpay({ orderIdDb, razorpayObject }).unwrap();
+
+                        if (verifyResponse.success) {
+                            getOrderDetailsRefetch();
+                            toast.success("Order paid successfully");
+                        } else {
+                            toast.error("Payment failed");
+                        }
+                    },
+                    prefill: {
+                        name,
+                        email,
+                        contact: '9999999999'
+                    },
+                    theme: {
+                        color: '#FC4A1A'
+                    },
+                };
+
+                const rzp = new Razorpay(options);
+                rzp.open();
+            } catch (err) {
+                toast.error(err?.data?.message || err.message);
+            }
+        }
     };
+
+    //******************************
 
     const markDeliveredHandler = () => {
         try {
@@ -93,7 +160,7 @@ const OrderPage = () => {
             {getOrderDetailsLoading ? <Loader /> : (getOrderDetailsErr ? (<Message variant='danger' > {getOrderDetailsErr?.data?.message || getOrderDetailsErr?.error} </Message>) : (
                 <>
                     <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "5px" }}>
-                        <h1 style={{ color: "#3c3d40", paddingLeft: "18px" }}>Order {getOrderDetailsData._id}</h1>
+                        <h1 style={{ color: "#3c3d40", paddingLeft: "18px", wordWrap: 'break-word' }}> Order&nbsp;{getOrderDetailsData._id}</h1>
                         <Row>
                             <Col md={8}>
                                 <ListGroup variant='flush'>
@@ -173,12 +240,14 @@ const OrderPage = () => {
 
                                         {!getOrderDetailsData.isPaid && (
                                             <ListGroup.Item>
-                                                {payOrderLoading && <Loader />}
+                                                {payOrderPayPalLoading && <Loader />}
 
                                                 {isPending ? <Loader /> : (
                                                     <>
                                                         {/* <div> <Button onClick={onApproveTest} style={{ marginBottom: '10px' }}> Test Pay Order </Button> </div> */}
-                                                        <div> <PayPalButtons disabled createOrder={createOrder} onApprove={onApprove} onError={onError} /> </div>
+                                                        {(getRazorpayApiKeyLoading || initializeOrderRazorpayLoading || getPayPalClientIdLoading || verifyOrderRazorpayLoading) && <Loader />}
+                                                        {getOrderDetailsData?.paymentMethod === "PayPal" && <div> <PayPalButtons createOrder={createOrderPayPal} onApprove={onApprovePayPal} onError={onErrorPayPal} /> </div>}
+                                                        {getOrderDetailsData?.paymentMethod === "Razorpay" && !getRazorpayApiKeyLoading && !initializeOrderRazorpayLoading && !verifyOrderRazorpayLoading && !getOrderDetailsData?.isPaid && <RazorpayButton onClick={() => createOrderRazorpay()} />}
                                                     </>
                                                 )}
                                             </ListGroup.Item>

@@ -1,11 +1,11 @@
 const addDecimals = (num) => {
-    return (Math.round(parseFloat(num) * 100) / 100).toFixed(2);
+    return (Math.round(Number(num) * 100) / 100).toFixed(2);
 };
 
 export function calcPrices(orderItems) {
     // Calculate the items price
     const itemsPrice = addDecimals(
-        orderItems.reduce((acc, item) => acc + parseFloat(item.price) * parseInt(item.quantity), 0)
+        orderItems.reduce((acc, item) => acc + Number(item.price) * Number(item.quantity), 0)
     );
 
     // Calculate the shipping price

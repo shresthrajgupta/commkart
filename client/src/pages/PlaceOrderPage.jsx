@@ -19,7 +19,6 @@ const PlaceOrderPage = () => {
 
     const cart = useSelector((state) => state.cart);
 
-
     const [createOrder, { isLoading: createOrderLoading, error: createOrderErr }] = useCreateOrderMutation();
 
     useEffect(() => {
@@ -37,9 +36,9 @@ const PlaceOrderPage = () => {
                 shippingAddress: cart.shippingAddress,
                 paymentMethod: cart.paymentMethod,
                 itemsPrice: Number(cart?.itemsPrice),
-                shippingPrice: cart.shippingPrice,
-                taxPrice: cart?.taxPrice,
-                totalPrice: cart?.totalPrice
+                shippingPrice: Number(cart.shippingPrice),
+                taxPrice: Number(cart?.taxPrice),
+                totalPrice: Number(cart?.totalPrice)
             }).unwrap();
 
             dispatch(clearCartItems());
@@ -79,7 +78,7 @@ const PlaceOrderPage = () => {
                                             <ListGroup.Item key={index}>
                                                 <Row>
                                                     <Col md={1}> <Image src={item.image} alt={item.name} fluid rounded /> </Col>
-                                                    <Col> <Link to={`/product/${item._id}`}>{item.name}</Link> </Col>
+                                                    <Col> <Link to={`/product/${item._id}`} style={{ textDecoration: "none" }}>{item.name}</Link> </Col>
                                                     <Col md={4}> {item.quantity} x ₹{item.price} = ₹{item.quantity * item.price} </Col>
                                                 </Row>
                                             </ListGroup.Item>
@@ -103,7 +102,7 @@ const PlaceOrderPage = () => {
 
                                     <Row>
                                         <Col> Shipping </Col>
-                                        <Col> ₹{cart.shippingPrice} </Col>
+                                        <Col> ₹{Number(cart?.shippingPrice).toFixed(2)} </Col>
                                     </Row>
 
                                     <Row>
@@ -113,7 +112,7 @@ const PlaceOrderPage = () => {
 
                                     <Row>
                                         <Col> Total </Col>
-                                        <Col> ₹{cart?.totalPrice} </Col>
+                                        <Col> ₹{Number(cart?.totalPrice).toFixed(2)} </Col>
                                     </Row>
                                 </ListGroup.Item>
 
@@ -128,7 +127,6 @@ const PlaceOrderPage = () => {
 
                                 <ListGroup.Item>
                                     <Button type="button" className="btn-block" disabled={cart.cartItems.length === 0} onClick={placeOrderHandler} style={{ backgroundColor: "#F7B733", border: "none" }}> Place Order </Button>
-
                                     {createOrderLoading && <Loader />}
                                 </ListGroup.Item>
                             </ListGroup>

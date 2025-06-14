@@ -18,7 +18,7 @@ const ProductCarousel = () => {
                 <Carousel pause="hover" className="bg-primary mb-3" style={{ zIndex: "50" }}>
                     {getTopProductsData.map((product, index) => (
 
-                        <Carousel.Item key={product._id} style={{ background: 'linear-gradient(to right, #541e0f 0%, #FC4A1A 50%, #541e0f 100%)' }}>
+                        <Carousel.Item key={product._id}>
                             <Link to={`/product/${product._id}`}>
                                 <Image src={`/carousel/${product.image.split("/")[2]}`} alt={product.name} style={{
                                     height: '580px', // Set fixed height

@@ -82,7 +82,7 @@ const LoginPage = () => {
                                 </Form.Group>
 
                                 <Button type="submit" variant="primary" className="mt-2" disabled={loginLoading} style={{ backgroundColor: "#F7B733", border: "none" }}>
-                                    Sign In
+                                    Log In
                                 </Button>
                             </Form>
 

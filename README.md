@@ -8,6 +8,8 @@
 
 ![place-order-page](screenshots/placeorderpage.png)
 
+![razorpay-payment-page](screenshots/razorpay.png)
+
 <!-- toc -->
 
 - [About](#about)
@@ -51,7 +53,7 @@ CommKart is a full-featured e-commerce web application that provides users with 
 
 ### Payment:
 
-- PayPal (Disabled due to domestic transactions being not supported in India)
+- PayPal (Only USD payments due to domestic transactions being not supported in India)
 - Razorpay
 
 ### Other Tools:

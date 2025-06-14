@@ -4,6 +4,7 @@ import { Row, Col, ListGroup, Card, Button, Image, Form } from 'react-bootstrap'
 import { FaTrash } from 'react-icons/fa';
 
 import Message from '../components/Message';
+import QuantitySelector2 from '../components/QuantitySelector2';
 import Meta from '../components/Meta';
 
 import { addToCart, removeFromCart } from "../redux/slices/cartSlice";
@@ -45,13 +46,15 @@ const CartPage = () => {
                                         <Col md={2}>₹{item.price}</Col>
 
                                         <Col md={2}>
-                                            <Form.Control as="select" value={item.quantity} onChange={(e) => { addToCartHandler(item, Number(e.target.value)) }}>
+                                            {/* <Form.Control as="select" value={item.quantity} onChange={(e) => { addToCartHandler(item, Number(e.target.value)) }}>
                                                 {[...Array(item.countInStock).keys()].map((x) => (
                                                     <option key={x + 1} value={x + 1}>
                                                         {x + 1}
                                                     </option>
                                                 ))}
-                                            </Form.Control>
+                                            </Form.Control> */}
+
+                                            <QuantitySelector2 min={1} max={item?.countInStock} value={item?.quantity || 1} onChange={(value) => { (value >= 1 && value <= item?.countInStock) ? addToCartHandler(item, Number(value)) : 1 }} />
                                         </Col>
 
                                         <Col md={2}><Button type='button' variant='light' onClick={() => { removeFromCartHandler(item._id) }}><FaTrash style={{ color: "#FC4A1A", backgroundColor: "transparent" }} /></Button></Col>

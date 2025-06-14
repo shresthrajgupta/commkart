@@ -15,13 +15,13 @@ const ProductCarousel = () => {
     return (
         <>
             {getTopProductsLoading ? <Loader /> : (getTopProductsErr ? <Message variant="danger">{getTopProductsErr}</Message> : (
-                <Carousel pause="hover" className="bg-primary mb-3" style={{zIndex: "50"}}>
+                <Carousel pause="hover" className="bg-primary mb-3" style={{ zIndex: "50" }}>
                     {getTopProductsData.map((product, index) => (
 
                         <Carousel.Item key={product._id} style={{ background: 'linear-gradient(to right, #541e0f 0%, #FC4A1A 50%, #541e0f 100%)' }}>
                             <Link to={`/product/${product._id}`}>
                                 <Image src={`/carousel/${product.image.split("/")[2]}`} alt={product.name} style={{
-                                    height: '550px', // Set fixed height
+                                    height: '580px', // Set fixed height
                                     width: '100%',
                                     objectFit: 'cover', // This will center and crop the image
                                     objectPosition: 'center'

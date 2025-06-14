@@ -92,9 +92,11 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
+  -webkit-appearance: textfield;
 }
 
 /* CYAN=#4ABDAC
 RED=#FC4A1A
 YELLOW=#F7B733 
-GREY=DFDCE3 */
+GREY=#DFDCE3 */

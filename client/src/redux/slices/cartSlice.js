@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : { cartItems: [], shippingAddress: {}, paymentMethod: "PayPal" };
+const initialState = localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : { cartItems: [], shippingAddress: {}, paymentMethod: "" };
 
 
 const addDecimals = (num) => {
@@ -61,7 +61,7 @@ const cartSlice = createSlice({
             return updateCart(state);
         },
 
-        resetCart: (state) => (state = initialState)
+        resetCart: (state) => (state = { cartItems: [], shippingAddress: {}, paymentMethod: "" })
     }
 });
 

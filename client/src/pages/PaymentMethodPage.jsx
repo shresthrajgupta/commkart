@@ -49,7 +49,7 @@ const PaymentMethodPage = () => {
                             <Col>
                                 <Form.Check
                                     type="radio"
-                                    className="my-2"
+                                    className="my-2 custom-checkbox"
                                     label="PayPal (Use dollar)"
                                     id="PayPal"
                                     name="paymentMethod"
@@ -61,7 +61,7 @@ const PaymentMethodPage = () => {
                             <Col>
                                 <Form.Check
                                     type="radio"
-                                    className="my-2"
+                                    className="my-2 custom-checkbox"
                                     label="Razorpay"
                                     id="Razorpay"
                                     name="paymentMethod"

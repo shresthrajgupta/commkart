@@ -8,6 +8,7 @@ import Rating from "../components/Rating";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Meta from "../components/Meta";
+import QuantitySelector from "../components/QuantitySelector";
 
 import { useGetProductDetailsQuery, useCreateReviewMutation } from "../redux/slices/api/productsApiSlice";
 import { addToCart } from "../redux/slices/cartSlice";
@@ -87,16 +88,18 @@ const ProductPage = () => {
                                     {getProductDetailsData.countInStock > 0 && (
                                         <ListGroup.Item>
                                             <Row>
-                                                <Col>Qty</Col>
+                                                <Col>Quantity</Col>
 
                                                 <Col>
-                                                    <Form.Control as="select" value={quantity} onChange={(e) => setQuantity(e.target.value)}>
+                                                    {/* <Form.Control as="select" value={quantity} onChange={(e) => setQuantity(e.target.value)}>
                                                         {[...Array(getProductDetailsData.countInStock).keys()].map((x) => (
                                                             <option key={x + 1} value={x + 1}>
                                                                 {x + 1}
                                                             </option>
                                                         ))}
-                                                    </Form.Control>
+                                                    </Form.Control> */}
+
+                                                    <QuantitySelector countInStock={getProductDetailsData?.countInStock} quantity={quantity} setQuantity={setQuantity} />
                                                 </Col>
                                             </Row>
                                         </ListGroup.Item>

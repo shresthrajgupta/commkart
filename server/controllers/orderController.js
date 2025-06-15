@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import dotenv from 'dotenv';
 
 import asyncHandler from "../middlewares/asyncHandler.js";
 
@@ -8,7 +9,9 @@ import Product from "../models/productModel.js";
 import { calcPrices } from "../utils/calcPrices.js";
 import { verifyPayPalPayment, checkIfNewTransaction } from "../utils/paypal.js";
 import { instance } from "../utils/razorpay.js";
+import mailerGmail from "../utils/mailerGmail.js";
 
+dotenv.config();
 
 const addOrderItems = asyncHandler(async (req, res) => {
     const { orderItems, shippingAddress, paymentMethod } = req.body;
@@ -155,13 +158,38 @@ const verifyOrderToPaidRazorpay = asyncHandler(async (req, res) => {
         }
 
         const paidCorrectAmount = Number(order.totalPrice).toFixed(2) === ((Number(payment.amount).toFixed(2)) / 100).toFixed(2);
-        if (!paidCorrectAmount) throw new Error('Incorrect amount paid');
+        if (!paidCorrectAmount) {
+            throw new Error('Incorrect amount paid');
+        }
 
         order.isPaid = true;
         order.paidAt = Date.now();
         order.paymentResult = payment;
 
         const updatedOrder = await order.save();
+        const populatedOrder = await updatedOrder.populate('user', 'name email');
+
+        try {
+            await mailerGmail({
+                from: process.env.EMAIL_ID,
+                to: populatedOrder?.user?.email,
+                subject: "Order successfully received - CommKart",
+                text: `
+                Thank you for ordering from us. At CommKart, we strive to provide you with the best possible customer service.\n
+                Here are the details of you order:
+                Order ID: ${populatedOrder?._id.toString()}
+                Date: ${new Date(populatedOrder?.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                Name: ${populatedOrder?.user?.name}
+                Email: ${populatedOrder?.user?.email}
+                Order Amount: ${populatedOrder?.totalPrice}
+                Payment Method: ${populatedOrder?.paymentMethod}
+                `,
+            });
+        } catch (err) {
+            res.status(500);
+            console.log(err);
+            throw new Error("Some error occured, Please try again later");
+        }
 
         res.status(200).json({ success: true, message: "Payment successful" });
     } else {

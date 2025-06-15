@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { loginUser, registerUser, logoutUser, getUserProfile, updateUserProfile, getAllUsers, getUserByID, deleteUser, updateUser, getAddress, addAdress } from '../controllers/userController.js';
+import { loginUser, registerUser, verifyOtpAndRegister, logoutUser, getUserProfile, updateUserProfile, getAllUsers, getUserByID, deleteUser, updateUser, getAddress, addAdress } from '../controllers/userController.js';
 
 import { protect, admin } from '../middlewares/authMiddleware.js';
 import checkObjectId from '../middlewares/checkObjectId.js';
@@ -8,6 +8,7 @@ import checkObjectId from '../middlewares/checkObjectId.js';
 const router = express.Router();
 
 router.route('/').post(registerUser).get(protect, admin, getAllUsers);
+router.route('/verifyotp').post(verifyOtpAndRegister);
 router.post('/logout', logoutUser);
 router.post('/login', loginUser);
 router.route('/profile').get(protect, getUserProfile).put(protect, updateUserProfile);

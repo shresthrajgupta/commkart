@@ -26,7 +26,7 @@ CommKart is a full-featured e-commerce web application that provides users with 
 
 ## Features
 
-- **User Authentication**: Secure login and registration system
+- **User Authentication**: Secure login and registration system with OTP functionality
 - **Product Catalog**: Browse products with advanced filtering and search
 - **Shopping Cart**: Add, remove, and modify items in cart
 - **Checkout Process**: Streamlined checkout with multiple payment options

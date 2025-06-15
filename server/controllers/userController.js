@@ -113,18 +113,72 @@ const verifyOtpAndRegister = asyncHandler(async (req, res) => {
         });
     }
 
-    const newUser = new User({
-        name: decoded.name,
-        email: decoded.email,
-        password: decoded.password
-    });
-    await newUser.save();
+    const user = await User.findOne({ email: decoded.email });
 
-    res.clearCookie("jwt");
-    generateToken(res, newUser._id);
+    if (!user) {
+        const newUser = new User({
+            name: decoded.name,
+            email: decoded.email,
+            password: decoded.password
+        });
+        await newUser.save();
 
-    return res.status(201).json({ _id: newUser._id, name: newUser.name, email: newUser.email, isAdmin: newUser.isAdmin });
+        res.clearCookie("jwt");
+        generateToken(res, newUser._id);
+
+        return res.status(201).json({ _id: newUser._id, name: newUser.name, email: newUser.email, isAdmin: newUser.isAdmin });
+    }
+    else {
+        user.password = decoded.password;
+        await user.save();
+
+        res.clearCookie("jwt");
+        generateToken(res, user._id);
+
+        return res.status(201).json({ _id: user._id, name: user.name, email: user.email, isAdmin: user.isAdmin });
+    }
 })
+
+const forgotPassword = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        res.status(404);
+        throw new Error("User not found");
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    try {
+        await mailerGmail({
+            from: process.env.EMAIL_ID,
+            to: email,
+            subject: "OTP",
+            text: `Your OTP is ${otp}`,
+        });
+    } catch (error) {
+        res.status(500);
+        throw new Error("Failed to send OTP");
+    }
+
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hashedOtp = await bcrypt.hash(`${otp}`, salt);
+
+        const payload = { email, password, hashedOtp };
+
+        const token = generateAuthToken(res, payload);
+
+        return res.status(200).json({
+            message: "OTP sent successfully",
+            data: {},
+        });
+    } catch (error) {
+        res.status(500);
+        throw new Error("Some error occured, please try again");
+    }
+});
 
 const logoutUser = asyncHandler(async (req, res) => {
     res.cookie("jwt", "", {
@@ -244,4 +298,4 @@ const addAdress = asyncHandler(async (req, res) => {
     }
 });
 
-export { loginUser, registerUser, verifyOtpAndRegister, logoutUser, getUserProfile, updateUserProfile, getAllUsers, getUserByID, deleteUser, updateUser, getAddress, addAdress };
+export { loginUser, registerUser, verifyOtpAndRegister, forgotPassword, logoutUser, getUserProfile, updateUserProfile, getAllUsers, getUserByID, deleteUser, updateUser, getAddress, addAdress };

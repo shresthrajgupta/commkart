@@ -81,17 +81,18 @@ const LoginPage = () => {
                                     />
                                 </Form.Group>
 
-                                <Button type="submit" variant="primary" className="mt-2" disabled={loginLoading} style={{ backgroundColor: "#F7B733", border: "none" }}>
+                                <Button type="submit" variant="primary" className="mt-0" disabled={loginLoading} style={{ backgroundColor: "#F7B733", border: "none" }}>
                                     Log In
                                 </Button>
                             </Form>
 
-                            <Row className="py-3">
-                                <Col>
-                                    New User? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Register</Link>
-                                </Col>
+                            <Row className="pt-3">
+                                <Col><Link to="/forgotpassword" style={{ textDecoration: 'none' }}>Forgot Password?</Link></Col>
                             </Row>
 
+                            <Row className="pb-1">
+                                <Col><Link to={redirect ? `/register?redirect=${redirect}` : '/register'} style={{ textDecoration: 'none' }}>New User?</Link></Col>
+                            </Row>
                         </div >
                     </FormContainer >
                 </>

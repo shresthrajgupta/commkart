@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Form, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 
-import { useRegisterMutation, useVerifyOtpMutation } from "../redux/slices/api/usersApiSlice";
+import { useForgotPasswordMutation, useVerifyOtpMutation } from "../redux/slices/api/usersApiSlice";
 import { setCredentials } from "../redux/slices/authSlice";
 
 import FormContainer from "../components/FormContainer";
@@ -13,55 +13,34 @@ import { warningReload } from "../components/warningReload";
 import Meta from "../components/Meta";
 
 
-const RegisterPage = () => {
-    const [name, setName] = useState("");
+const ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [rePassword, setRePassword] = useState("");
     const [isOtpPage, setIsOtpPage] = useState(false);
     const [otp, setOtp] = useState("");
 
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
     warningReload(hasUnsavedChanges);
 
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { search } = useLocation();
 
-    const [register, { isLoading: registerLoading }] = useRegisterMutation();
+    const [forgotPassword, { isLoading: forgotPasswordLoading }] = useForgotPasswordMutation();
     const [verifyOtp, { isLoading: verifyOtpLoading }] = useVerifyOtpMutation();
-
-    const { userInfo } = useSelector((state) => state.auth);
-
-    const sp = new URLSearchParams(search);
-    const redirect = sp.get("redirect") || "/";
-
-    useEffect(() => {
-        if (userInfo) {
-            navigate(redirect);
-        }
-    }, [navigate, redirect, userInfo]);
 
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        if (password !== rePassword) {
-            toast.error("Passwords do not match");
-            return;
-        } else {
-            try {
-                const res = await register({ name, email, password }).unwrap();
+        try {
+            const res = await forgotPassword({email, password}).unwrap();
 
-                if (res?.message === "OTP sent successfully") {
-                    setIsOtpPage(true);
-                    setHasUnsavedChanges(true);
-                }
-            } catch (error) {
-                toast.error(error?.data?.message || error.error);
+            if (res?.message === "OTP sent successfully") {
+                setIsOtpPage(true);
+                setHasUnsavedChanges(true);
             }
+        } catch (err) {
+            toast.error(err?.data?.message || err.error);
         }
-
     };
 
     const verifyOTPHandler = async (e) => {
@@ -76,7 +55,7 @@ const RegisterPage = () => {
             const res = await verifyOtp(otp).unwrap();
             dispatch(setCredentials({ ...res }));
             setHasUnsavedChanges(false);
-            navigate(redirect);
+            navigate("/");
         } catch (error) {
             toast.error(error?.data?.message || error.error);
         }
@@ -84,29 +63,18 @@ const RegisterPage = () => {
 
     return (
         <>
-            <Meta title="Register - CommKart" />
+            <Meta title='Reset Password - CommKart' />
 
-            {registerLoading ? <Loader /> :
+            {forgotPasswordLoading ? <Loader /> :
                 <>
                     {!isOtpPage ?
                         <>
                             <FormContainer>
-                                <div style={{ maxWidth: "400px", margin: "0 auto", backgroundColor: "white", padding: "20px", borderRadius: "5px" }}>
-                                    <h1 style={{ color: "#3c3d40" }}>Sign Up</h1>
+                                <div style={{ backgroundColor: "white", borderRadius: "5px", padding: "20px", maxWidth: "400px", margin: "auto" }} className="shadow" >
+
+                                    <h1 style={{ color: "#3c3d40" }}>Reset Password</h1>
 
                                     <Form onSubmit={submitHandler}>
-                                        <Form.Group controlId="name" className="my-3">
-                                            <Form.Label>Name</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="Enter name"
-                                                value={name}
-                                                onChange={(e) => setName(e.target.value)}
-                                                required
-                                                className="custom-input"
-                                            />
-                                        </Form.Group>
-
                                         <Form.Group controlId="email" className="my-3">
                                             <Form.Label>Email Address</Form.Label>
                                             <Form.Control
@@ -131,36 +99,20 @@ const RegisterPage = () => {
                                             />
                                         </Form.Group>
 
-                                        <Form.Group controlId="rePassword" className="my-3">
-                                            <Form.Label>Confirm Password</Form.Label>
-                                            <Form.Control
-                                                type="password"
-                                                placeholder="Confirm password"
-                                                value={rePassword}
-                                                onChange={(e) => setRePassword(e.target.value)}
-                                                required
-                                                className="custom-input"
-                                            />
-                                        </Form.Group>
-
-                                        <Button type="submit" variant="primary" className="mt-0" disabled={registerLoading} style={{ backgroundColor: "#F7B733", border: "none" }}>
-                                            Sign Up
+                                        <Button type="submit" variant="primary" className="mt-2" disabled={forgotPasswordLoading} style={{ backgroundColor: "#F7B733", border: "none" }}>
+                                            Get OTP
                                         </Button>
                                     </Form>
-
-                                    <Row className="pt-3 pb-1">
-                                        <Col>
-                                            <Link to={redirect ? `/login?redirect=${redirect}` : '/login'} style={{ textDecoration: "none" }}>Already a user?</Link>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </FormContainer>
+                                </div >
+                            </FormContainer >
                         </>
                         :
                         <>
                             <FormContainer>
                                 <div style={{ maxWidth: "400px", margin: "0 auto", backgroundColor: "white", padding: "20px", borderRadius: "5px" }}>
                                     <h1 style={{ color: "#3c3d40" }}>Enter OTP</h1>
+
+                                    <p>If the email matches with any of our registered users, you will receive an OTP on your email.</p>
 
                                     <Form onSubmit={verifyOTPHandler}>
                                         <Form.Group controlId="name" className="my-3">
@@ -189,4 +141,4 @@ const RegisterPage = () => {
     )
 };
 
-export default RegisterPage;
+export default ForgotPassword;

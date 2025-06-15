@@ -24,19 +24,22 @@ const HomePage = () => {
 
             {allProductsLoading ? <></> : (allProductsErr ? (<Message variant='danger'> {allProductsErr?.data?.message || allProductsErr.error} </Message>) : (
                 <>
-                    <h1 style={{ color: "#3c3d40", marginBottom: 0, backgroundColor: "white", paddingLeft: "14px", paddingTop: "14px" }}>Latest Products</h1>
+                    <div style={{ backgroundColor: "white", borderRadius: "5px" }}>
+                        <h1 style={{ color: "#3c3d40", marginBottom: 0, paddingLeft: "14px", paddingTop: "14px" }}>Latest Products</h1>
 
-                    <Row style={{ backgroundColor: "white", margin: 0, padding: "7px" }}>
-                        {allProductsData.products.map((product) => (
-                            <Col key={product._id} sm={12} md={6} lg={4} xl={3} style={{ paddingLeft: 8, paddingRight: 8 }}>
-                                <Product product={product} />
-                            </Col>
-                        ))}
-                    </Row >
+                        <Row style={{ margin: 0, padding: "7px" }}>
+                            {allProductsData.products.map((product) => (
+                                <Col key={product._id} sm={12} md={6} lg={4} xl={3} style={{ paddingLeft: 8, paddingRight: 8 }}>
+                                    <Product product={product} />
+                                </Col>
+                            ))}
+                        </Row >
+                    </div>
 
                     <Paginate pages={allProductsData.pages} page={allProductsData.page} keyword={keyword ? keyword : ''} />
                 </>
-            ))}
+            ))
+            }
         </>
     );
 };

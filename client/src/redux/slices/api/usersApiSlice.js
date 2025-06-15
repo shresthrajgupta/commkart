@@ -40,6 +40,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             }
         }),
 
+        forgotPassword: builder.mutation({
+            query: ({ email, password }) => ({
+                url: `${USERS_URL}/forgotpassword`,
+                method: 'POST',
+                body: { email, password }
+            })
+        }),
+
         updateProfile: builder.mutation({
             query: (userDetails) => ({
                 url: `${USERS_URL}/profile`,
@@ -91,4 +99,4 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useVerifyOtpMutation, useUpdateProfileMutation, useGetAllUsersQuery, useDeleteUserMutation, useGetUserDetailsQuery, useUpdateUserDetailsMutation, useGetAddressQuery, useAddAddressMutation } = usersApiSlice;
+export const { useLoginMutation, useLogoutMutation, useRegisterMutation, useVerifyOtpMutation, useForgotPasswordMutation, useUpdateProfileMutation, useGetAllUsersQuery, useDeleteUserMutation, useGetUserDetailsQuery, useUpdateUserDetailsMutation, useGetAddressQuery, useAddAddressMutation } = usersApiSlice;

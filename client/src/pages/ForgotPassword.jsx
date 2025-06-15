@@ -16,6 +16,7 @@ import Meta from "../components/Meta";
 const ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [rePassword, setRePassword] = useState("");
     const [isOtpPage, setIsOtpPage] = useState(false);
     const [otp, setOtp] = useState("");
 
@@ -32,7 +33,12 @@ const ForgotPassword = () => {
         e.preventDefault();
 
         try {
-            const res = await forgotPassword({email, password}).unwrap();
+            if (password !== rePassword) {
+                toast.error("Passwords do not match");
+                return;
+            }
+
+            const res = await forgotPassword({ email, password }).unwrap();
 
             if (res?.message === "OTP sent successfully") {
                 setIsOtpPage(true);
@@ -94,6 +100,18 @@ const ForgotPassword = () => {
                                                 placeholder="Enter password"
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
+                                                required
+                                                className="custom-input"
+                                            />
+                                        </Form.Group>
+
+                                        <Form.Group controlId="rePassword" className="my-3">
+                                            <Form.Label>Confirm Password</Form.Label>
+                                            <Form.Control
+                                                type="password"
+                                                placeholder="Confirm password"
+                                                value={rePassword}
+                                                onChange={(e) => setRePassword(e.target.value)}
                                                 required
                                                 className="custom-input"
                                             />

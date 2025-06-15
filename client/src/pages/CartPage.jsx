@@ -41,11 +41,11 @@ const CartPage = () => {
                             {cartItems.map((item) => (
                                 <ListGroup.Item key={item._id}>
                                     <Row>
-                                        <Col md={2}><Image src={item.image} alt={item.name} fluid rounded /></Col>
-                                        <Col md={3}><Link to={`/product/${item._id}`} style={{ textDecoration: 'none' }}>{item.name}</Link></Col>
-                                        <Col md={2}>₹{item.price}</Col>
+                                        <Col style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='py-2' md={2}><Image src={item.image} alt={item.name} fluid rounded /></Col>
+                                        <Col style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='py-2' md={3}><Link to={`/product/${item._id}`} style={{ textDecoration: 'none' }}>{item.name}</Link></Col>
+                                        <Col style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='py-2' md={2}>₹{item.price}</Col>
 
-                                        <Col md={2}>
+                                        <Col style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='py-2' md={3}>
                                             {/* <Form.Control as="select" value={item.quantity} onChange={(e) => { addToCartHandler(item, Number(e.target.value)) }}>
                                                 {[...Array(item.countInStock).keys()].map((x) => (
                                                     <option key={x + 1} value={x + 1}>
@@ -57,7 +57,7 @@ const CartPage = () => {
                                             <QuantitySelector2 min={1} max={item?.countInStock} value={item?.quantity || 1} onChange={(value) => { (value >= 1 && value <= item?.countInStock) ? addToCartHandler(item, Number(value)) : 1 }} />
                                         </Col>
 
-                                        <Col md={2}><Button type='button' variant='light' onClick={() => { removeFromCartHandler(item._id) }}><FaTrash style={{ color: "#FC4A1A", backgroundColor: "transparent" }} /></Button></Col>
+                                        <Col style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className='py-2' md={2}><Button type='button' variant='light' onClick={() => { removeFromCartHandler(item._id) }}><FaTrash style={{ color: "#FC4A1A", backgroundColor: "transparent" }} /></Button></Col>
                                     </Row>
                                 </ListGroup.Item>
                             ))}

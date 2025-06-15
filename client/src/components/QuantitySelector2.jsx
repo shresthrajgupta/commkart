@@ -1,176 +1,176 @@
 import React from 'react';
-import InputNumber from 'rc-input-number';
 
-const QuantitySelector2 = ({ min, max, value, onChange }) => {
-    const [disabled, setDisabled] = React.useState(false);
-    const [readOnly, setReadOnly] = React.useState(false);
-    const [keyboard, setKeyboard] = React.useState(true);
-    const [wheel, setWheel] = React.useState(false);
-    const [stringMode, setStringMode] = React.useState(false);
-    // const [value, setValue] = React.useState < string | number > (93);
+const QuantitySelector2 = ({ min = 1, max = 99, value = 1, onChange }) => {
+    const [currentValue, setCurrentValue] = React.useState(value);
 
-    // const onChange = (val) => {
-    //     console.warn('onChange:', val, typeof val);
-    //     setValue(val);
-    // };
+    React.useEffect(() => {
+        setCurrentValue(value);
+    }, [value]);
+
+    const handleIncrement = () => {
+        const newValue = Math.min(currentValue + 1, max);
+        setCurrentValue(newValue);
+        if (onChange) onChange(newValue);
+    };
+
+    const handleDecrement = () => {
+        const newValue = Math.max(currentValue - 1, min);
+        setCurrentValue(newValue);
+        if (onChange) onChange(newValue);
+    };
+
+    const handleInputChange = (e) => {
+        const newValue = parseInt(e.target.value) || min;
+        const clampedValue = Math.max(min, Math.min(max, newValue));
+        setCurrentValue(clampedValue);
+        if (onChange) onChange(clampedValue);
+    };
+
+    const handleInputBlur = () => {
+        // Ensure value is within bounds when user finishes editing
+        const clampedValue = Math.max(min, Math.min(max, currentValue));
+        if (clampedValue !== currentValue) {
+            setCurrentValue(clampedValue);
+            if (onChange) onChange(clampedValue);
+        }
+    };
 
     return (
-        <>
-            <style>{`
-                .rc-input-number {
+        <div style={{ width: "120px" }}>
+            <div className="quantity-selector">
+                <input style={{ backgroundColor: "white" }} type="number" value={currentValue} onChange={handleInputChange} onBlur={handleInputBlur} min={min} max={max} className="quantity-input" aria-label="quantity selector" />
+
+                <div className="quantity-controls">
+                    <button type="button" className="quantity-btn quantity-btn-up" onClick={handleIncrement} disabled={currentValue >= max} aria-label="Increase quantity"> + </button>
+
+                    <button type="button" className="quantity-btn quantity-btn-down" onClick={handleDecrement} disabled={currentValue <= min} aria-label="Decrease quantity">-</button>
+                </div>
+            </div>
+
+            <style jsx>{`
+                .quantity-selector {
+                    position: relative;
                     display: inline-block;
-                    height: 46px;
-                    margin: 0;
-                    padding: 0;
-                    font-size: 16px;
-                    line-height: 26px;
-                    vertical-align: middle;
+                    width: 120px;
+                    height: 48px;
                     border: 1px solid #d9d9d9;
                     border-radius: 4px;
-                    transition: all 0.3s;
                     background-color: #DFDCE3;
+                    transition: all 0.3s;
+                    overflow: hidden;
                 }
 
-                .rc-input-number-focused {
+                .quantity-selector:hover,
+                .quantity-selector:focus-within {
                     border-color: #F7B733;
                     box-shadow: 0 0 0 1px #F7B733;
                 }
 
-                .rc-input-number-out-of-range input {
-                    color: white;
-                    background-color: red
-                }
-
-                .rc-input-number-handler {
-                    display: block;
-                    height: 20px;
-                    overflow: hidden;
-                    line-height: 23px;
-                    text-align: center;
-                    touch-action: none;
-                }
-
-                .rc-input-number-handler-active {
-                    background: #ddd;
-                }
-
-                .rc-input-number-handler-up-inner,
-                .rc-input-number-handler-down-inner {
-                    color: #666666;
-                    -webkit-user-select: none;
-                    user-select: none;
-                }
-
-                .rc-input-number:hover {
-                    border-color: #F7B733;
-                }
-
-                .rc-input-number:hover .rc-input-number-handler-up,
-                .rc-input-number:hover .rc-input-number-handler-wrap {
-                    border-color: #F7B733;
-                }
-
-                .rc-input-number-disabled:hover {
-                    border-color: #d9d9d9;
-                }
-
-                .rc-input-number-disabled:hover .rc-input-number-handler-up,
-                .rc-input-number-disabled:hover .rc-input-number-handler-wrap {
-                    border-color: #d9d9d9;
-                }
-
-                .rc-input-number-input-wrap {
+                .quantity-input {
+                    width: calc(100% - 40px);
                     height: 100%;
-                    overflow: hidden;
-                }
-
-                .rc-input-number-input {
-                    width: 100%;
-                    height: 100%;
-                    padding: 0;
-                    color: #666666;
-                    line-height: 26px;
+                    border: none;
+                    outline: none;
                     text-align: center;
-                    border: 0;
-                    border-radius: 4px;
-                    outline: 0;
-                    transition: all 0.3s ease;
+                    font-size: 16px;
+                    color: #666666;
+                    background: transparent;
                     -moz-appearance: textfield;
+                    padding: 0;
                 }
 
-                .rc-input-number-handler-wrap {
-                    float: right;
-                    width: 20px;
+                .quantity-input::-webkit-outer-spin-button,
+                .quantity-input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+
+                .quantity-controls {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    width: 40px;
                     height: 100%;
+                    display: flex;
+                    flex-direction: column;
                     border-left: 1px solid #d9d9d9;
-                    transition: all 0.3s;
                 }
 
-                .rc-input-number-handler-up {
-                    padding-top: 1px;
-                    border-bottom: 1px solid #d9d9d9;
-                    transition: all 0.3s;
-                }
-
-                .rc-input-number-handler-up-inner:after {
+                .quantity-btn {
+                    flex: 1;
+                    border: none;
+                    background: #f5f5f5;
+                    cursor: pointer;
+                    font-size: 16px;
+                    font-weight: bold;
                     color: #2c2c2e;
-                    content: '+';
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+                    touch-action: manipulation;
+                    -webkit-tap-highlight-color: transparent;
                 }
 
-                .rc-input-number-handler-down {
-                    transition: all 0.3s;
+                .quantity-btn:hover {
+                    background: #e8e8e8;
                 }
 
-                .rc-input-number-handler-down-inner:after {
-                    color: #2c2c2e;
-                    content: '-';
+                .quantity-btn:active {
+                    background: #ddd;
+                    transform: scale(0.95);
                 }
 
-                /* Handler disabled mixin applied to these: */
-                .rc-input-number-handler-down-disabled,
-                .rc-input-number-handler-up-disabled {
+                .quantity-btn:disabled {
                     opacity: 0.3;
-                }
-
-                .rc-input-number-handler-down-disabled:hover,
-                .rc-input-number-handler-up-disabled:hover {
-                    color: #999;
-                    border-color: #d9d9d9;
-                }
-
-                .rc-input-number-disabled .rc-input-number-input {
-                    background-color: #f3f3f3;
                     cursor: not-allowed;
-                    opacity: 0.72;
+                    background: #f5f5f5;
                 }
 
-                .rc-input-number-disabled .rc-input-number-handler {
-                    opacity: 0.3;
+                .quantity-btn:disabled:hover,
+                .quantity-btn:disabled:active {
+                    background: #f5f5f5;
+                    transform: none;
                 }
 
-                .rc-input-number-disabled .rc-input-number-handler:hover {
-                    color: #999;
-                    border-color: #d9d9d9;
+                .quantity-btn-up {
+                    border-bottom: 1px solid #d9d9d9;
+                    border-top-right-radius: 3px;
                 }
-        `}</style>
 
+                .quantity-btn-down {
+                    border-bottom-right-radius: 3px;
+                }
 
-            <div style={{}}>
-                <InputNumber
-                    aria-label="quantity selector button"
-                    min={min}
-                    max={max}
-                    style={{ width: 100 }}
-                    value={value}
-                    onChange={onChange}
-                    readOnly={readOnly}
-                    disabled={disabled}
-                    keyboard={keyboard}
-                    changeOnWheel={wheel}
-                    stringMode={stringMode}
-                />
-            </div>
-        </>
+                /* Mobile optimizations */
+                @media (max-width: 768px) {
+                    .quantity-controls {
+                        width: 44px; /* Larger touch target on mobile */
+                    }
+
+                    .quantity-input {
+                        width: calc(100% - 44px);
+                    }
+
+                    .quantity-btn {
+                        font-size: 18px;
+                        min-height: 22px;
+                    }
+                }
+
+                /* Touch device specific */
+                @media (hover: none) and (pointer: coarse) {
+                    .quantity-btn {
+                        background: #f0f0f0;
+                        min-height: 23px;
+                    }
+
+                    .quantity-btn:active {
+                        background: #e0e0e0;
+                    }
+                }
+            `}</style>
+        </div>
     );
 };
 

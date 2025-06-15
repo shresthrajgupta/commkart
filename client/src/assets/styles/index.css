@@ -96,6 +96,10 @@ input[type="number"] {
   -webkit-appearance: textfield;
 }
 
+.navbar-collapse {
+  margin-top: 9px !important;
+}
+
 /* CYAN=#4ABDAC
 RED=#FC4A1A
 YELLOW=#F7B733 

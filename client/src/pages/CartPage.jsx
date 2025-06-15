@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, ListGroup, Card, Button, Image, Form } from 'react-bootstrap';
+import { Row, Col, ListGroup, Card, Button, Image } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 
 import Message from '../components/Message';

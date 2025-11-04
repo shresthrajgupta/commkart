@@ -1,4 +1,3 @@
-import { get } from 'mongoose';
 import { USERS_URL } from '../../../constants.js';
 
 import { apiSlice } from './apiSlice.js';

@@ -128,7 +128,7 @@ const ForgotPassword = () => {
                         <>
                             <FormContainer>
                                 <div style={{ maxWidth: "400px", margin: "0 auto", backgroundColor: "white", padding: "20px", borderRadius: "5px" }}>
-                                    <h1 style={{ color: "#3c3d40" }}>Enter OTP</h1>
+                                    <h1 style={{ color: "#3c3d40" }}>Enter OTP</h1> 
 
                                     <p>If the email matches with any of our registered users, you will receive an OTP on your email.</p>
 
